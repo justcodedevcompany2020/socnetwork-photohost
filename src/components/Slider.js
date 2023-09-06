@@ -1,19 +1,26 @@
-import {useState} from 'react';
+import { useState } from 'react';
 import {
   View,
   StyleSheet,
   Image,
-  Text,
-  TouchableOpacity,
   FlatList,
   Dimensions,
+  TouchableOpacity,
 } from 'react-native';
-import {AppColors} from '../styles/AppColors';
+import { AppColors } from '../styles/AppColors';
+import ImageZoom from 'react-native-image-pan-zoom';
+import ZoomableImage from './ZoomImg';
+import { SliderModal } from './SliderModal';
 
 const windowWidth = Dimensions.get('window').width;
-export const Slider = () => {
-  const data = [{}, {}, {}];
+export const Slider = ({ photo, single, activePhoto }) => {
   const [active, setActive] = useState(0);
+  const [isZoomVisible, setZoomVisible] = useState(false);
+  const [openSlider, setOpenSlider] = useState(false)
+
+  const closeZoom = () => {
+    setZoomVisible(false);
+  };
   return (
     <View>
       <FlatList
@@ -21,25 +28,34 @@ export const Slider = () => {
         pagingEnabled
         showsHorizontalScrollIndicator={false}
         decelerationRate="fast"
-        data={data}
+        data={photo}
         onMomentumScrollEnd={event => {
           const index = Math.floor(
             Math.floor(event.nativeEvent.contentOffset.x) /
-              Math.floor(event.nativeEvent.layoutMeasurement.width),
+            Math.floor(event.nativeEvent.layoutMeasurement.width),
           );
           setActive(index);
+          activePhoto(index)
         }}
-        renderItem={({item, index}) => {
+        renderItem={({ item, index }) => {
           return (
-            <View style={styles.img}>
+            <TouchableOpacity
+              onPress={() => setOpenSlider(true)}
+              style={!single ? styles.img : { ...styles.img, width: windowWidth, height: 350 }}>
               <Image
                 style={[
-                  {marginVertical: 10, width: '100%', height: '100%'},
+                  { marginVertical: 10, width: '100%', height: '100%' },
                 ]}
-                source={require('../assets/img/1.png')}
+                // source={require('../assets/img/1.png')}
+                source={{ uri: `https://chamba.justcode.am/uploads/${item.photo}` }}
                 resizeMode={'cover'}
               />
-            </View>
+              <ZoomableImage
+                imageUrl={`https://chamba.justcode.am/uploads/${item.photo}`}
+                isVisible={isZoomVisible}
+                onClose={closeZoom}
+              />
+            </TouchableOpacity>
           );
         }}
       />
@@ -48,9 +64,9 @@ export const Slider = () => {
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'center',
-          marginVertical:10,
+          marginVertical: 10,
         }}>
-        {data.map((elm, i) => (
+        {photo?.map((elm, i) => (
           <View
             key={i}
             style={[
@@ -62,6 +78,7 @@ export const Slider = () => {
             ]}></View>
         ))}
       </View>
+      <SliderModal modalVisible={openSlider} activePhoto={active} photo={photo} close={() => setOpenSlider(false)} />
     </View>
   );
 };

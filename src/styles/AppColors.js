@@ -11,4 +11,9 @@ export const AppColors ={
     Charcoal_Color:'#444444',
     Eclipse_Color:'#404040',
     GoldenTainoi_Color:'#FFC24B',
+    SweetCorn_Color:'#FFDF6C',
+    Solitude_Color:'#E7EEF5',
+    Heather_Color:'#B1BAC3',
+    PattensBlue_Color:'#D3DEE7',
+    NeonBlue_Color:'#4541F3'
 }
