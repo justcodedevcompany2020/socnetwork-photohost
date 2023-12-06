@@ -1055,7 +1055,6 @@ export const AddPostViewCount = (data, token) => {
     fetch(`${Api}/view_post_count`, requestOptions)
       .then(response => response.json())
       .then(r => {
-        console.log(r)
       })
       .catch(error => {
         console.log(error)
@@ -1089,7 +1088,7 @@ export const GetNotificationAction = (token, page) => {
   };
 }
 
-export const AddCommentAction = (data, token) => {
+export const AddCommentAction = (data, token, data2) => {
   var myHeaders = new Headers();
   myHeaders.append('Content-Type', 'application/json');
   myHeaders.append('Authorization', `Bearer ${token}`);
@@ -1105,6 +1104,13 @@ export const AddCommentAction = (data, token) => {
       .then(response => response.json())
       .then(r => {
         if (r.status) {
+          dispatch(
+            GelPostCommentsAction(
+              data2,
+              token,
+              1,
+            ),
+          );
           dispatch(SuccessAddComment())
         }
         else {
@@ -1377,7 +1383,6 @@ export const UpdateIkInfoAction = (data, token) => {
         }
       })
       .catch(error => {
-        console.log(error)
         dispatch(ErrorUpdateIKInfor())
       });
   };
@@ -1416,4 +1421,26 @@ export const MsgCountAction = (data) => {
     type: 'MsgCountAction',
     data
   }
+}
+
+export const DeletComment = (data, token, data2) => {
+  return (dispatch) => {
+    var myHeaders = new Headers();
+    myHeaders.append('Content-Type', 'application/json');
+    myHeaders.append('Authorization', `Bearer ${token}`);
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: JSON.stringify(data),
+      redirect: 'follow',
+    };
+
+    fetch(`${Api}/delete_comment`, requestOptions)
+      .then(response => response.json())
+      .then(r => {
+        dispatch(GelPostCommentsAction(data2, token))
+      })
+      .catch(error => {
+      });
+  };
 }

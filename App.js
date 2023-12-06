@@ -44,8 +44,6 @@ export default App = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [token, setToken] = useState('')
   const [id, setID] = useState('')
-
-
   async function getData() {
     const token = await AsyncStorage.getItem('token')
     const id = await AsyncStorage.getItem('id');
@@ -80,9 +78,6 @@ export default App = () => {
           animated={true}
           backgroundColor="#fff"
           barStyle={'dark-content'}
-        // barStyle={statusBarStyle}
-        // showHideTransition={statusBarTransition}
-        // hidden={hidden}
         />
         <GestureHandlerRootView style={{ flex: 1 }}>
           <Navigation initialRouteName={initialRouteName} token={token} id={id} />

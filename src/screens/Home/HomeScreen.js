@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Post } from '../../components/Post';
 import { AddPostViewCount, DelatePostAction, GetLentsAction } from '../../store/action/action';
 import { Styles } from '../../styles/Styles';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const HomeScreen = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -21,8 +22,9 @@ export const HomeScreen = ({ navigation }) => {
   }, [staticdata.token]);
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', async () => {
-      if (staticdata.token) {
-        dispatch(GetLentsAction(staticdata.token));
+      let token = await AsyncStorage.getItem('token')
+      if (token) {
+        dispatch(GetLentsAction(token));
       }
     });
     return unsubscribe;
@@ -55,7 +57,6 @@ export const HomeScreen = ({ navigation }) => {
   const renderItem = ({ item, index }) => {
     const givenDate = new Date(item.created_at);
     const currentDate = new Date();
-    console.log(givenDate)
     const timeDifference = currentDate - givenDate;
     let daysAgo = Math.floor(timeDifference / (1000 * 60 * 60 * 24)) + ' дней назад';
     if (daysAgo < 0) {
@@ -72,8 +73,8 @@ export const HomeScreen = ({ navigation }) => {
           style={{
             backfaceVisibility: 'visible',
             backgroundColor: 'transparent',
-            paddingHorizontal: 10,
-            marginVertical: 5,
+            // paddingHorizontal: 10,
+            marginTop: 5
           }}>
           <Post
             userImg={item.user.avatar}
@@ -103,6 +104,13 @@ export const HomeScreen = ({ navigation }) => {
     }
   };
 
+
+  const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
+    const paddingToBottom = 900;
+    return layoutMeasurement.height + contentOffset.y >=
+      contentSize.height - paddingToBottom;
+  };
+
   const handleScroll = event => {
     const offsetY = event.nativeEvent.contentOffset.y;
     const itemHeight = 400;
@@ -122,7 +130,17 @@ export const HomeScreen = ({ navigation }) => {
       showsVerticalScrollIndicator={false}
       style={{ backgroundColor: 'rgb(237,238,240)' }}
       ref={flatListRef}
-      onScroll={handleScroll}
+      onScroll={({ nativeEvent }) => {
+        handleScroll({ nativeEvent })
+        if (isCloseToBottom(nativeEvent)) {
+          if (getLents?.nextPage) {
+            let p = page + 1;
+            dispatch(GetLentsAction(staticdata.token, p));
+            setPage(p);
+          }
+        }
+
+      }}
       refreshControl={
         <RefreshControl
           refreshing={getLents?.loading}
@@ -133,17 +151,14 @@ export const HomeScreen = ({ navigation }) => {
       }
       data={data}
       enableEmptySections={true}
-      // ListEmptyComponent = {()=>(
-      //   !getFollowers?.loading && <Text style = {[Styles.darkMedium16,{marginTop:40,textAlign:'center'}]}>{data?"Не найдено":'У Вас нет подписчиков'}</Text>
-      // )}
       renderItem={renderItem}
-      onEndReached={() => {
-        if (getLents?.nextPage) {
-          let p = page + 1;
-          dispatch(GetLentsAction(staticdata.token, p));
-          setPage(p);
-        }
-      }}
+    // onEndReached={() => {
+    //   if (getLents?.nextPage) {
+    //     let p = page + 1;
+    //     dispatch(GetLentsAction(staticdata.token, p));
+    //     setPage(p);
+    //   }
+    // }}
     />
   );
 };

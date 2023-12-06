@@ -8,19 +8,12 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { AppColors } from '../styles/AppColors';
-import ImageZoom from 'react-native-image-pan-zoom';
-import ZoomableImage from './ZoomImg';
 import { SliderModal } from './SliderModal';
 
 const windowWidth = Dimensions.get('window').width;
 export const Slider = ({ photo, single, activePhoto }) => {
   const [active, setActive] = useState(0);
-  const [isZoomVisible, setZoomVisible] = useState(false);
   const [openSlider, setOpenSlider] = useState(false)
-
-  const closeZoom = () => {
-    setZoomVisible(false);
-  };
   return (
     <View>
       <FlatList
@@ -38,22 +31,29 @@ export const Slider = ({ photo, single, activePhoto }) => {
           activePhoto(index)
         }}
         renderItem={({ item, index }) => {
+          let aspectRatio = 1
+          if (item.width > item.height) {
+            aspectRatio = 0.2 + item.width / item.height
+          }
+          else {
+            aspectRatio = 0.2 + item.height / item.width
+          }
+          if (aspectRatio > 1) {
+            aspectRatio = 0.72
+          }
+          else if (aspectRatio < 1) {
+            aspectRatio = 0.72
+          }
           return (
             <TouchableOpacity
               onPress={() => setOpenSlider(true)}
               style={!single ? styles.img : { ...styles.img, width: windowWidth, height: 350 }}>
               <Image
                 style={[
-                  { marginVertical: 10, width: '100%', height: '100%' },
+                  { marginVertical: 5, width: '100%', aspectRatio: aspectRatio ? aspectRatio : 1 },
                 ]}
-                // source={require('../assets/img/1.png')}
                 source={{ uri: `https://chamba.justcode.am/uploads/${item.photo}` }}
                 resizeMode={'cover'}
-              />
-              <ZoomableImage
-                imageUrl={`https://chamba.justcode.am/uploads/${item.photo}`}
-                isVisible={isZoomVisible}
-                onClose={closeZoom}
               />
             </TouchableOpacity>
           );
@@ -64,9 +64,9 @@ export const Slider = ({ photo, single, activePhoto }) => {
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'center',
-          marginVertical: 10,
+          marginVertical: 5,
         }}>
-        {photo?.map((elm, i) => (
+        {photo.length > 1 && photo?.map((elm, i) => (
           <View
             key={i}
             style={[
@@ -85,8 +85,8 @@ export const Slider = ({ photo, single, activePhoto }) => {
 
 const styles = StyleSheet.create({
   img: {
-    height: 300,
-    width: windowWidth - 20,
+    // height: 550,
+    width: windowWidth,
     flexShrink: 0,
   },
   pagination: {

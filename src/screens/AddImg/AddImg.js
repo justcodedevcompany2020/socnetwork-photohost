@@ -7,7 +7,6 @@ import {
   Text,
   TouchableOpacity,
   Platform,
-  Linking,
 } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 import { useDispatch, useSelector } from 'react-redux';
@@ -37,26 +36,10 @@ export const AddImg = ({ navigation }) => {
       request(cameraPermission);
       request(photoLibraryPermission);
     }
-    else {
-      ImagePicker.openPicker({
-        width: 300,
-        height: 400,
-        cropping: true,
-        multiple: true,
-      }).then(image => {
-        setUri(image);
-      }).catch((error) => {
-        console.log(error)
-      })
-
-    }
-
-
   }
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', async () => {
-
       Camera()
     });
     return unsubscribe;
@@ -88,10 +71,10 @@ export const AddImg = ({ navigation }) => {
   const addPhoto = () => {
     ImagePicker.openPicker({
       width: 300,
-      height: 400,
-      cropping: true,
+      height: 450,
+      cropping: false,
+      mediaType: 'photo',
       multiple: true,
-      mediaType: 'photo'
     }).then(image => {
       let item = [...uri]
       item = item.concat(image);
@@ -119,7 +102,7 @@ export const AddImg = ({ navigation }) => {
         title={'Новая публикация'}
       />
       <View style={styles.wrapper}>
-        {uri.map((elm, i) => {
+        {uri?.length > 0 && uri?.map((elm, i) => {
           return (
             <View key={i} style={styles.imgWrapper}>
               <Image
@@ -131,7 +114,7 @@ export const AddImg = ({ navigation }) => {
               <TouchableOpacity
                 onPress={() => delateFoto(i)}
                 style={styles.close}>
-                <Text style={{ color: 'red', fontSize: 20 }}>x</Text>
+                <Text style={{ color: '#cccccc', fontSize: 14, marginTop: -4 }}>x</Text>
               </TouchableOpacity>
             </View>
           );
@@ -156,13 +139,13 @@ export const AddImg = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   imgWrapper: {
-    height: 85,
-    width: '22%',
-    margin: 5,
+    height: 150,
+    width: '31%',
+    margin: '1%',
     position: 'relative',
   },
   img: {
-    height: 85,
+    height: 150,
     width: '100%',
     borderRadius: 10,
   },
@@ -182,9 +165,15 @@ const styles = StyleSheet.create({
   },
   close: {
     position: 'absolute',
-    color: 'red',
-    top: -15,
-    right: 0,
+    top: 5,
+    right: 5,
+    width: 20,
+    height: 20,
+    borderRadius: 25,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white'
+
   },
   addImgButton: {
     width: '22%',
