@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -10,21 +10,21 @@ import {
   Dimensions,
   ScrollView,
 } from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
-import {Albom} from '../../components/Albom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Albom } from '../../components/Albom';
 
-import {BlackListBlock} from '../../components/blackListBlock';
-import {Post} from '../../components/Post';
+import { BlackListBlock } from '../../components/blackListBlock';
+import { Post } from '../../components/Post';
 import {
   AddBlackListAction,
   GetBlackListAction,
   GetMyBooksAction,
 } from '../../store/action/action';
-import {Styles} from '../../styles/Styles';
+import { Styles } from '../../styles/Styles';
 
 const windowWidth = Dimensions.get('window').width;
 
-export const SavedPostScreen = ({navigation}) => {
+export const SavedPostScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const staticdata = useSelector(st => st.static);
   const books = useSelector(st => st.books);
@@ -43,7 +43,7 @@ export const SavedPostScreen = ({navigation}) => {
     return unsubscribe;
   }, [navigation]);
 
-  const renderItem = ({item, index}) => {
+  const renderItem = ({ item, index }) => {
     return (
       <TouchableOpacity>
         <Image
@@ -57,7 +57,7 @@ export const SavedPostScreen = ({navigation}) => {
     );
   };
 
-  const isCloseToBottom = ({layoutMeasurement, contentOffset, contentSize}) => {
+  const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
     const paddingToBottom = 20;
     return (
       layoutMeasurement.height + contentOffset.y >=
@@ -66,11 +66,11 @@ export const SavedPostScreen = ({navigation}) => {
   };
 
   return (
-    <View style={{marginTop: 10, alignItems: 'center', paddingHorizontal: 15}}>
+    <View style={{ marginTop: 10, alignItems: 'center', paddingHorizontal: 15 }}>
       <ScrollView
-        contentContainerStyle={{flexGrow: 1}}
+        contentContainerStyle={{ flexGrow: 1 }}
         showsVerticalScrollIndicator={false}
-        onScroll={({nativeEvent}) => {
+        onScroll={({ nativeEvent }) => {
           if (isCloseToBottom(nativeEvent)) {
             if (books.nextPage) {
               let pages = page + 1;

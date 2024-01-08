@@ -66,13 +66,13 @@ export const LoginScreen = ({ navigation }) => {
     <View style={[Styles.authScreen, { marginTop: 80 }]}>
       <Text style={[Styles.darkSemiBold22, { marginBottom: 30 }]}>Вход</Text>
       <Input
-        placeholder={'Введите Е-майл'}
+        placeholder={'Введите е-майл'}
         error={login.error}
         value={login.value}
         onChange={e => setLogin({ ...login, value: e })}
       />
       <Input
-        placeholder={'Введите Пароль'}
+        placeholder={'Введите пароль'}
         error={password.error}
         pass={true}
         value={password.value}

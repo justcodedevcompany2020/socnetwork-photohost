@@ -310,6 +310,7 @@ export const getUserInfoAction = token => {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then(r => {
+        console.log(r)
         if (r.data.status) {
           dispatch(
             SuccessGetUserData(
@@ -325,6 +326,7 @@ export const getUserInfoAction = token => {
         }
       })
       .catch(error => {
+        console.log(error)
         dispatch(ErrorGetUserData());
       });
   };
@@ -1361,6 +1363,7 @@ export const GetCitysAction = (data, token) => {
 }
 
 export const UpdateIkInfoAction = (data, token) => {
+  console.log(data)
   var myHeaders = new Headers();
   myHeaders.append('Content-Type', 'application/json');
   myHeaders.append('Authorization', `Bearer ${token}`);
@@ -1375,6 +1378,7 @@ export const UpdateIkInfoAction = (data, token) => {
     fetch(`${Api}/update_lk_info`, requestOptions)
       .then(response => response.json())
       .then(r => {
+        console.log(r)
         if (r.status) {
           dispatch(SuccessUpdateIkinfo(r.data))
         }
@@ -1383,6 +1387,7 @@ export const UpdateIkInfoAction = (data, token) => {
         }
       })
       .catch(error => {
+        console.log(error)
         dispatch(ErrorUpdateIKInfor())
       });
   };

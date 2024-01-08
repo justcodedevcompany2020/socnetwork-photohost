@@ -506,6 +506,22 @@ export const DownArrow = () => {
     />
   </Svg>
 }
+export const DownArrow1 = () => {
+  return <Svg
+    width={16}
+    height={7}
+    viewBox="0 0 16 10"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <Path
+      d="M1 1l7 7 7-7"
+      stroke="#444"
+      strokeWidth={1.8}
+      strokeLinecap="round"
+    />
+  </Svg>
+}
 
 export const CakeSvg = () => {
   return <Svg
