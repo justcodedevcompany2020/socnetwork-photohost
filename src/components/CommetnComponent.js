@@ -3,23 +3,26 @@ import { View, Text, StyleSheet } from 'react-native';
 import { CommentItem } from './CommentItem';
 
 const CommentComponent = ({ commentData, depth = 0, onPressAnsswer, token }) => {
+    const mounth = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря']
+
     const renderComment = (comment) => {
         const givenDate = new Date(comment.created_at);
         const currentDate = new Date();
         const timeDifference = currentDate - givenDate;
-        let daysAgo = (timeDifference / (1000 * 60 * 60 * 24))
-        if (+daysAgo < 1) {
-            daysAgo = daysAgo * 24
-            if (daysAgo <= 1) {
-                daysAgo = Math.floor(daysAgo * 60) + 'минут назад'
-            }
-            else {
-                daysAgo = Math.floor(daysAgo) + 'часов назад'
-            }
+        let dayOfMonth = currentDate.getDate();
+        let hour = currentDate.getHours();
+        let minute = currentDate.getMinutes();
+        const Mounth = currentDate.getMonth()
+        if (minute <= 9) {
+            minute = `0${minute}`
         }
-        else {
-            daysAgo = Math.floor(timeDifference / (1000 * 60 * 60 * 24)) + ' дней назад';
+        if (hour <= 9) {
+            hour = `0${hour}`
         }
+        if (dayOfMonth <= 9) {
+            dayOfMonth = `0${dayOfMonth}`
+        }
+        daysAgo = `${dayOfMonth} ${mounth[Mounth]} в ${hour}:${minute}`
         return <View key={comment.comment} style={[styles.commentContainer]}>
             <CommentItem
                 text={comment.comment}
@@ -76,7 +79,7 @@ const CommentComponent = ({ commentData, depth = 0, onPressAnsswer, token }) => 
     };
 
     return (
-        <View style={{ marginLeft: 20 }}>
+        <View style={{ marginLeft: 10 }}>
             {commentData.map(comment => renderComment(comment))}
         </View>
     );

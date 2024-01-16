@@ -310,7 +310,6 @@ export const getUserInfoAction = token => {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then(r => {
-        console.log(r)
         if (r.data.status) {
           dispatch(
             SuccessGetUserData(
@@ -326,7 +325,6 @@ export const getUserInfoAction = token => {
         }
       })
       .catch(error => {
-        console.log(error)
         dispatch(ErrorGetUserData());
       });
   };
@@ -499,6 +497,7 @@ export const ChangeMail = email => {
 };
 
 export const chnageAvatarAction = (url, token) => {
+  console.log(url)
   return dispatch => {
     dispatch(StartChangeAvatar());
     var myHeaders = new Headers();
@@ -507,17 +506,19 @@ export const chnageAvatarAction = (url, token) => {
     myHeaders.append('Authorization', `Bearer ${token}`);
 
     let body = new FormData();
+
     body.append('photo', {
       uri: url,
       name: 'photo.png',
       filename: 'imageName.png',
       type: 'image/png',
     });
+
     body.append('Content-Type', 'image/png');
     var requestOptions = {
       method: 'POST',
       headers: myHeaders,
-      body: body,
+      body: url && body,
     };
 
     fetch(
@@ -526,6 +527,7 @@ export const chnageAvatarAction = (url, token) => {
     )
       .then(response => response.json())
       .then(r => {
+        console.log(r)
         if (r.status) {
           dispatch(SuccessChangeAvatar());
           dispatch(ChangeAvatar(r.avatar));
@@ -534,6 +536,7 @@ export const chnageAvatarAction = (url, token) => {
         }
       })
       .catch(error => {
+        console.log(error)
         dispatch(ErrorChangeAvatar());
       });
   };
@@ -1059,7 +1062,6 @@ export const AddPostViewCount = (data, token) => {
       .then(r => {
       })
       .catch(error => {
-        console.log(error)
       });
   };
 };
@@ -1168,10 +1170,8 @@ export const LikeCommentAction = (data, token) => {
     fetch(`${Api}/comment_like`, requestOptions)
       .then(response => response.json())
       .then(r => {
-        console.log(r)
       })
       .catch(error => {
-        console.log(error)
       });
   };
 }
@@ -1276,10 +1276,8 @@ export const DeviceIdAction = (data, token) => {
     fetch(`${Api}/add_device_id`, requestOptions)
       .then(response => response.json())
       .then(r => {
-        console.log(r)
       })
       .catch(error => {
-        console.log(error)
       });
   };
 }
@@ -1363,7 +1361,6 @@ export const GetCitysAction = (data, token) => {
 }
 
 export const UpdateIkInfoAction = (data, token) => {
-  console.log(data)
   var myHeaders = new Headers();
   myHeaders.append('Content-Type', 'application/json');
   myHeaders.append('Authorization', `Bearer ${token}`);
@@ -1373,12 +1370,12 @@ export const UpdateIkInfoAction = (data, token) => {
     body: JSON.stringify(data),
     redirect: 'follow',
   };
+
   return dispatch => {
     dispatch(StartUpdateIkInfo());
     fetch(`${Api}/update_lk_info`, requestOptions)
       .then(response => response.json())
       .then(r => {
-        console.log(r)
         if (r.status) {
           dispatch(SuccessUpdateIkinfo(r.data))
         }
@@ -1387,7 +1384,6 @@ export const UpdateIkInfoAction = (data, token) => {
         }
       })
       .catch(error => {
-        console.log(error)
         dispatch(ErrorUpdateIKInfor())
       });
   };

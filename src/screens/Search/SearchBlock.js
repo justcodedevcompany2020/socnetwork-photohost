@@ -102,7 +102,7 @@ export const SearchBlock = () => {
         </View>
 
       </View>
-      {!data && serchData.length == 0 && <Text style={Styles.darkMedium16}>Найдите друзей</Text>}
+      {/* {!data && serchData.length == 0 && <Text style={Styles.darkMedium16}>Найдите друзей</Text>} */}
 
       <FlatList
         refreshControl={

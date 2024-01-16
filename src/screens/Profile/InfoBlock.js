@@ -26,7 +26,6 @@ export const InfoBlock = ({ user }) => {
         let newDateFormat = ''
         if (month < 10) {
             month = '0' + month
-            console.log()
         }
         if (day) {
             newDateFormat = `${day}.${month}.${year}`;

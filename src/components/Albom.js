@@ -13,13 +13,13 @@ export const Albom = ({ data, user, loading, seved }) => {
     </View>
   }
   return (
-    <View style={{ marginTop: 20, width: '98%' }}>
+    <View style={{ marginTop: 20, width: '99%' }}>
       <View
         style={[
           {
             flexWrap: 'wrap',
             flexDirection: 'row',
-            justifyContent: 'space-around',
+            gap: 14,
           },
         ]}>
         {data?.map((elm, i) => {

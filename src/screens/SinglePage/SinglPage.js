@@ -6,6 +6,7 @@ import {
   Text,
   SafeAreaView,
   Image,
+  StyleSheet,
 } from 'react-native';
 import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -21,13 +22,14 @@ import {
 } from '../../store/action/action';
 import { Styles } from '../../styles/Styles';
 import { BootomModal } from '../../components/BootomSheet';
-import { BackArrow, NotLineSvg } from '../../assets/svg/Svgs';
+import { BackArrow, NotLineSvg, Save, SaveSVG } from '../../assets/svg/Svgs';
 import { Comment, Heart, MenuSvg, ViewSvg } from '../../assets/svg/TabBarSvg';
 import { Slider } from '../../components/Slider';
 import { CommentItem } from '../../components/CommentItem';
 import { CommentBlock } from '../../components/CommentBlock';
 import { Comments } from '../../components/Comment';
 import { Input } from '../../ui/Input';
+import { Shadow } from 'react-native-shadow-2';
 
 export const SinglPageScreen = ({ route, navigation }) => {
   const staticdata = useSelector(st => st.static);
@@ -41,17 +43,31 @@ export const SinglPageScreen = ({ route, navigation }) => {
   const [parenId, setParentId] = useState(null);
   const [senderName, setSenderNAme] = useState('')
   const [follow, setFollow] = useState()
+  const [activePhoto, setActivePhoto] = useState(0)
+  const [active, setActive] = useState(0);
+
 
   const [sendComment, setSendCommet] = useState('');
   const textInputRef = useRef(null);
   const id = route.params.id;
   const bottomSheetRef = useRef(null);
   const getComments = useSelector(st => st.getComments);
+  const [showSave, setShowSave] = useState(false)
+
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setShowSave(false);
+    }, 5000);
+
+    return () => clearTimeout(timeoutId);
+  }, [showSave]);
+
   const handlePresentModalPress = useCallback(() => {
     bottomSheetRef.current?.present();
   }, []);
   const snapPoints = useMemo(
-    () => [user?.data?.id != singlData?.data?.user?.id ? '30%' : '13%'],
+    () => [user?.data?.id != singlData?.data?.user?.id ? '25%' : '25%'],
     [],
   );
   const LikePost = () => {
@@ -78,9 +94,11 @@ export const SinglPageScreen = ({ route, navigation }) => {
   };
   const addToBook = () => {
     bottomSheetRef.current?.close();
+    setShowSave(true)
     dispatch(AddInBookAction({ post_id: id }, staticdata.token));
     setBook(!book);
   };
+  console.log(showSave)
 
   useEffect(() => {
     dispatch(GelPostCommentsAction({ post_id: id }, staticdata.token));
@@ -146,11 +164,23 @@ export const SinglPageScreen = ({ route, navigation }) => {
 
   return (
     <SafeAreaView>
-      <ScrollView style={{ height: '90%' }} showsVerticalScrollIndicator={false}>
+      {showSave &&
+        <View style={styles.block}>
+          <View style={[styles.card, styles.shadowProp]}>
+            <View style={{ flexDirection: "row", alignItems: "center", justifyContent: 'center', gap: 30 }}>
+              <Image source={require('../../assets/img/icons8-save-30.png')} />
+              <Text style={styles.heading}>
+                Запись сохранена в закладках
+              </Text>
+            </View>
+          </View>
+        </View>
+      }
+      <ScrollView style={{ height: '100%' }} showsVerticalScrollIndicator={false}>
         <View
           style={[
             Styles.flexSpaceBetween,
-            { paddingHorizontal: 20, marginTop: 20 },
+            { paddingHorizontal: 20, marginTop: 20, marginBottom: 20 },
           ]}>
           <TouchableOpacity onPress={() => {
             // dispatch(ClearSinglpAgeComment())
@@ -166,7 +196,10 @@ export const SinglPageScreen = ({ route, navigation }) => {
           </TouchableOpacity>
         </View>
         <View>
-          <Slider single photo={singlData.data.photo} />
+          <Slider description={singlData.data.description} activePhoto={(e) => setActivePhoto(e)} single photo={singlData.data.photo} />
+          {/* <Text style={[Styles.darkSemiBold12, { color: 'white', fontSize: 15, position: 'absolute', padding: 10, backgroundColor: 'rgba(0,0,0,0.5)', width: '100%', top: 0 }]}>
+            {singlData.data.description}
+          </Text> */}
           <View style={{ paddingHorizontal: 20 }}>
             <View style={Styles.flexSpaceBetween}>
               <View style={Styles.flexAlignItems}>
@@ -193,13 +226,13 @@ export const SinglPageScreen = ({ route, navigation }) => {
               <View>
                 <View style={Styles.flexAlignItems}>
                   <ViewSvg />
-                  <Text style={[Styles.balihaiRegular14, { marginLeft: 5 }]}>
+                  <Text style={[Styles.balihaiRegular14, { marginLeft: 5, }]}>
                     {singlData.data.view_count}
                   </Text>
                 </View>
               </View>
             </View>
-            <View
+            {/* <View
               style={{
                 borderBottomWidth: 1,
                 paddingBottom: 20,
@@ -212,8 +245,8 @@ export const SinglPageScreen = ({ route, navigation }) => {
                 ownerName={singlData.data.user?.name}
                 userImg={singlData.data.user?.avatar}
               />
-            </View>
-            {getComments.data.length > 0 && (
+            </View> */}
+            {/* {getComments.data.length > 0 && (
               <View style={{ marginVertical: 20 }}>
                 <CommentBlock
                   text={getComments.data[0]?.comment}
@@ -230,18 +263,21 @@ export const SinglPageScreen = ({ route, navigation }) => {
                   }}
                 />
               </View>
-            )}
+            )} */}
           </View>
         </View>
 
-        <Comments
+        {/* <Comments
           userName={singlData.data.user?.name}
           userImg={singlData.data.user?.avatar}
           description={singlData.data.description}
           parentId={id}
           visible={comment}
           close={() => setComment(false)}
-        />
+        /> */}
+
+
+
 
         <View style={{ position: 'absolute' }}>
           <BootomModal ref={bottomSheetRef} snapPoints={snapPoints}>
@@ -300,7 +336,7 @@ export const SinglPageScreen = ({ route, navigation }) => {
           </BootomModal>
         </View>
       </ScrollView>
-      <View
+      {/* <View
         style={{
           position: 'absolute',
           bottom: -40,
@@ -330,9 +366,40 @@ export const SinglPageScreen = ({ route, navigation }) => {
           width={'80%'}
           placeholder="Введите текст"
         />
-      </View>
+      </View> */}
     </SafeAreaView>
   );
 };
 
-// Редактировать
+export const styles = StyleSheet.create({
+  block: {
+    zIndex: 999,
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    bottom: 20,
+    width: '100%'
+  },
+  heading: {
+    fontSize: 14,
+    fontWeight: '600',
+    marginBottom: 13,
+    color: 'black'
+  },
+  card: {
+    backgroundColor: 'white',
+    borderRadius: 8,
+    padding: 10,
+    marginVertical: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 50,
+  },
+
+  shadowProp: {
+    shadowColor: 'black',
+    shadowOffset: { width: -2, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+  },
+})

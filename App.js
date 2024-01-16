@@ -8,8 +8,30 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import messaging from '@react-native-firebase/messaging';
 import firebase from '@react-native-firebase/app';
 import { NotificationLister, requestUserPermission } from './src/utils/pushnotification_helper';
-import { StatusBar } from 'react-native';
+import { BackHandler, StatusBar } from 'react-native';
 export default App = () => {
+
+
+
+
+
+  useEffect(() => {
+    const handleBackButton = () => {
+      // Your custom function logic goes here
+      console.log('11');
+
+      // Returning true from the event handler prevents default behavior (exiting the app)
+      // Returning false allows the default behavior (exiting the app)
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', handleBackButton);
+
+    // Cleanup the event listener when the component is unmounted
+    return () => backHandler.remove();
+  }, []);
+
+
   const firebaseConfig = {
     apiKey: "AIzaSyDeqDpmN8h9Zr2EkzcMlyZr-ddq_HkRZAc",
     authDomain: "https://chamba-f5697-default-rtdb.firebaseio.com",

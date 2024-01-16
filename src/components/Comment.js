@@ -141,9 +141,9 @@ export const Comments = ({ visible, close, parentId, userImg, userName, descript
     <ScrollView keyboardShouldPersistTaps="handled">
       <Modal animationType="slide" visible={visible}>
         <HeaderWhiteTitle onPress={() => close()} title={'Комментарии'} />
-        <View style={{ height: '86%', justifyContent: 'space-between' }}>
+        <View style={{ height: '86%', justifyContent: 'space-between', }}>
 
-          <View style={{ paddingHorizontal: 10, height: '100%' }}>
+          <View style={{ paddingHorizontal: 10, height: '100%', }}>
             {/* <View
               style={{
                 borderBottomWidth: 1,
@@ -208,13 +208,17 @@ export const Comments = ({ visible, close, parentId, userImg, userName, descript
           <View
             style={{
               alignItems: 'center',
-              justifyContent: 'center',
               flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignContent: 'space-between',
               position: 'absolute',
-              bottom: 3
+              bottom: 3,
+              right: 0,
+              width: '100%',
+              paddingHorizontal: 10,
             }}>
             <Image
-              style={{ width: 40, height: 40, borderRadius: 50, marginHorizontal: 10 }}
+              style={{ width: 40, height: 40, borderRadius: 50 }}
               source={{
                 uri: `https://chamba.justcode.am/uploads/${user.data.avatar}`,
               }}
@@ -226,7 +230,7 @@ export const Comments = ({ visible, close, parentId, userImg, userName, descript
               sendCom={() => sendCommentFunction()}
               value={sendComment}
               onChange={e => setSendCommet(e)}
-              width={'83%'}
+              width={'82%'}
               placeholder=" Оставьте комментарий"
             />
           </View>

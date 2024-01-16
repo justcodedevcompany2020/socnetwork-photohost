@@ -15,12 +15,48 @@ import { CheckMarkUserSvg, MenuSvg2 } from '../../assets/svg/Svgs';
 import { Menu } from '../../components/Menu';
 import { Button } from '../../ui/Button';
 import { useDispatch, useSelector } from 'react-redux';
-import { GetPostsAction, getUserInfoAction } from '../../store/action/action';
+import { GetPostsAction, chnageAvatarAction, getUserInfoAction } from '../../store/action/action';
 import SwiperFlatList from 'react-native-swiper-flatlist';
 import { InfoBlock } from './InfoBlock';
+import { Shadow } from 'react-native-shadow-2';
+import ImagePicker from 'react-native-image-crop-picker';
+import { SliderModal } from '../../components/SliderModal';
+
 const { width } = Dimensions.get('window');
 
 export const ProfileScreen = ({ navigation, profile }) => {
+  const [imgFile, setImgFile] = useState();
+  const [openSlider, setOpenSlider] = useState(false)
+  const [active, setActive] = useState(0);
+
+
+
+  const changeImg = () => {
+    ImagePicker.openPicker({
+      width: 80,
+      height: 80,
+      cropping: true,
+    }).then(image => {
+      setImgUrl(image.path);
+      setImgFile(image);
+      if (image.path) {
+        console.log('11')
+        setChangeAvatar(false)
+        dispatch(chnageAvatarAction(image.path, staticdata.token));
+      }
+    });
+
+  };
+
+
+  const DelatePhoto = () => {
+    setChangeAvatar(false)
+    setImgUrl('')
+    dispatch(chnageAvatarAction('', staticdata.token));
+  }
+
+
+
 
   const dispatch = useDispatch()
   const staticdata = useSelector(st => st.static);
@@ -29,6 +65,9 @@ export const ProfileScreen = ({ navigation, profile }) => {
   const user = useSelector(st => st.userData);
   const [activeCard, setActiveCard] = useState(0)
   const swiperRef = useRef(null);
+  const [changeAvatar, setChangeAvatar] = useState(false)
+  const [imgUrl, setImgUrl] = useState('');
+
 
   const [data, setData] = useState(['albom', ''])
 
@@ -79,7 +118,10 @@ export const ProfileScreen = ({ navigation, profile }) => {
   }
   else {
     return (
-      <View style={{ flex: 1, marginTop: 10, paddingHorizontal: 15, }}>
+      <TouchableOpacity
+        activeOpacity={1}
+        onPress={() => setChangeAvatar(false)}
+        style={{ flex: 1, marginTop: 10, paddingHorizontal: 15, }}>
         <ScrollView
           scrollEnabled={activeCard == 0}
           contentContainerStyle={{ flexGrow: 1 }}
@@ -100,18 +142,50 @@ export const ProfileScreen = ({ navigation, profile }) => {
             <MenuSvg2 />
           </TouchableOpacity>
           <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-            <Image
-              style={styles.img}
-              source={{ uri: `https://chamba.justcode.am/uploads/${user?.avatar}` }}
-            />
+            <TouchableOpacity onPress={() => setChangeAvatar(!changeAvatar)}>
+              <Image
+                style={styles.img}
+                source={{
+                  uri: imgUrl
+                    ? imgUrl
+                    : `https://chamba.justcode.am/uploads/${user.avatar}`,
+                }}
+              />
+              {/* <Image
+                style={styles.img}
+                source={{ uri: `https://chamba.justcode.am/uploads/${user?.avatar}` }}
+              /> */}
+            </TouchableOpacity>
+            {changeAvatar && <View style={{ top: 80, position: "absolute", }}>
+              <Shadow
+                style={styles.block}
+                startColor={'#00000010'}>
+                <TouchableOpacity style={{ flexDirection: 'row', gap: 10 }} onPress={() => {
+
+                  setChangeAvatar(false)
+                  setOpenSlider(true)
+                }}>
+                  <Image style={{ width: 20, height: 20 }} source={require('../../assets/img/user1.png')} />
+                  <Text >Открыть фото</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={{ flexDirection: 'row', gap: 10 }}>
+                  <Image style={{ width: 20, height: 20, marginLeft: -2 }} source={require('../../assets/img/edit.png')} />
+                  <Text onPress={() => changeImg()}>Изменить фото</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={{ flexDirection: 'row', gap: 10 }} onPress={() => DelatePhoto()}>
+                  <Image style={{ width: 20, height: 20 }} source={require('../../assets/img/delete.png')} />
+                  <Text>Удалить фото</Text>
+                </TouchableOpacity>
+              </Shadow>
+            </View>}
             <View style={{ marginTop: 7, marginBottom: 15, alignItems: 'center', marginLeft: 10 }}>
               <View style={Styles.flexAlignItems}>
-                <Text style={[Styles.darkMedium16, { marginRight: 5 }]}>{user?.name}</Text>
+                <Text style={[Styles.darkMedium16, { marginRight: 5 }]}>{user?.username}</Text>
                 {user.data.star > 0 &&
                   <CheckMarkUserSvg />
                 }
               </View>
-              <Text style={[Styles.balihaiRegular12, { marginLeft: -17 }]}>@{user?.username}</Text>
+              <Text style={[Styles.balihaiRegular12, { marginLeft: -17 }]}>@{user?.name}</Text>
             </View>
             {user.data.description && (
               <Text style={Styles.darkRegular14}>{user.description}</Text>
@@ -139,16 +213,18 @@ export const ProfileScreen = ({ navigation, profile }) => {
               <Text style={Styles.balihaiRegular12}>Подписок</Text>
             </TouchableOpacity>
           </View>
-          {profile && (
-            <View
-              style={[
-                Styles.flexSpaceBetween,
-                { paddingHorizontal: 15, marginVertical: 10 },
-              ]}>
-              <Button paddingV={10} title={'Подписаться'} width="48%" />
-              <Button bg paddingV={10} title={'Сообщение'} width="48%" />
-            </View>
-          )}
+          {
+            profile && (
+              <View
+                style={[
+                  Styles.flexSpaceBetween,
+                  { paddingHorizontal: 15, marginVertical: 10 },
+                ]}>
+                <Button paddingV={10} title={'Подписаться'} width="48%" />
+                <Button bg paddingV={10} title={'Сообщение'} width="48%" />
+              </View>
+            )
+          }
           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
             <Text onPress={() => handelChangeFirst()} style={[
               Styles.balihaiMedium14,
@@ -179,7 +255,10 @@ export const ProfileScreen = ({ navigation, profile }) => {
           </SwiperFlatList>
         </ScrollView >
         <Menu close={() => setOpenMenu(false)} visible={openMenu} />
-      </View >
+        <SliderModal
+
+          modalVisible={openSlider} activePhoto={active} photo={[{ photo: user.avatar }]} close={() => setOpenSlider(false)} />
+      </TouchableOpacity >
     );
   }
 };
@@ -196,6 +275,14 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     paddingBottom: 10,
     borderColor: '#E7EEF5',
-
+  },
+  block: {
+    padding: 10,
+    width: '100%',
+    borderRadius: 10,
+    backgroundColor: '#fff',
+    position: 'relative',
+    zIndex: 999,
+    gap: 10
   }
 });

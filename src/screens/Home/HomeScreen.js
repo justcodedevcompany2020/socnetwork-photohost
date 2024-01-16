@@ -5,6 +5,7 @@ import { Post } from '../../components/Post';
 import { AddPostViewCount, DelatePostAction, GetLentsAction } from '../../store/action/action';
 import { Styles } from '../../styles/Styles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { BackHandler } from 'react-native';
 
 export const HomeScreen = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -15,6 +16,8 @@ export const HomeScreen = ({ navigation }) => {
   const [blackList, setBlackList] = useState([]);
   const [index, setIndex] = useState(0);
   const flatListRef = useRef(null);
+
+
   useEffect(() => {
     if (staticdata.token) {
       dispatch(GetLentsAction(staticdata.token));
@@ -78,7 +81,7 @@ export const HomeScreen = ({ navigation }) => {
           }}>
           <Post
             userImg={item.user.avatar}
-            userName={item.user.nickname}
+            userName={item.user.name}
             userId={item.user.id}
             description={item.description}
             like={item.like_count}

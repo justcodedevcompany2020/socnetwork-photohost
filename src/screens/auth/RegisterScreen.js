@@ -104,16 +104,10 @@ export const RegisterScreen = ({ navigation }) => {
       <View style={Styles.authScreen}>
         <Text style={[Styles.darkSemiBold22, { marginBottom: 30 }]}>Регистрация</Text>
         <Input
-          placeholder={'ФИО/Название канала'}
+          placeholder={'Имя Фамилия или название канала'}
           error={userName.error || register.error?.username}
           value={userName.value}
           onChange={(e) => setUsername({ ...userName, value: e })}
-        />
-        <Input
-          placeholder={'придумайте никнэйм'}
-          error={name.error}
-          value={name.value}
-          onChange={(e) => setName({ ...name, value: e })}
         />
         <Input
           placeholder={'Придумайте пароль'}
@@ -122,13 +116,12 @@ export const RegisterScreen = ({ navigation }) => {
           onChange={(e) => setPassword({ ...password, value: e })}
           pass
         />
-        {/* <Input
-          placeholder={'Повторите пароль'}
-          error={confirmPassword.error}
-          value={confirmPassword.value}
-          onChange={(e) => setConfirmPassword({ ...confirmPassword, value: e })}
-          pass
-        /> */}
+        <Input
+          placeholder={'Придумайте никнэйм'}
+          error={name.error}
+          value={name.value}
+          onChange={(e) => setName({ ...name, value: e })}
+        />
         <Input
           placeholder={'Укажите почту'}
           error={email.error || register.error?.email}

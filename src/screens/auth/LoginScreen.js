@@ -6,6 +6,7 @@ import { Input } from '../../ui/Input';
 import { useDispatch, useSelector } from 'react-redux';
 import { ClearConfirmPasswordAction, ClearLoginAction, LoginAction } from '../../store/action/action';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { ChecboxUNchekedSvg, CheckedChexbox } from '../../assets/svg/Svgs';
 
 export const LoginScreen = ({ navigation }) => {
   const [login, setLogin] = useState({ error: '', value: '' });
@@ -13,6 +14,8 @@ export const LoginScreen = ({ navigation }) => {
   const [send, setSend] = useState(true);
   const dispatch = useDispatch();
   const loginData = useSelector(st => st.login);
+  const [checked, setChecked] = useState(false)
+  console.log(checked)
   useEffect(() => {
     if (login.value && password.value) {
       setSend(false);
@@ -59,8 +62,14 @@ export const LoginScreen = ({ navigation }) => {
     }
   }, [loginData.status])
   const setLoginPassword = async () => {
-    await AsyncStorage.setItem('login', login.value)
-    await AsyncStorage.setItem('password', password.value)
+    if (checked) {
+      await AsyncStorage.setItem('login', login.value)
+      await AsyncStorage.setItem('password', password.value)
+    }
+    else {
+      await AsyncStorage.removeItem('login')
+      await AsyncStorage.removeItem('password')
+    }
   }
   return (
     <View style={[Styles.authScreen, { marginTop: 80 }]}>
@@ -70,12 +79,16 @@ export const LoginScreen = ({ navigation }) => {
         error={login.error}
         value={login.value}
         onChange={e => setLogin({ ...login, value: e })}
+        clear
+        clearText={(e) => setLogin({ ...login, value: '' })}
       />
       <Input
         placeholder={'Введите пароль'}
         error={password.error}
         pass={true}
         value={password.value}
+        clear
+        clearText={(e) => setPasswod({ ...password, value: '' })}
         onChange={e => setPasswod({ ...password, value: e })}
       />
       <View style={[[Styles.flexSpaceBetween, { paddingHorizontal: 10 }]]}>
@@ -87,7 +100,14 @@ export const LoginScreen = ({ navigation }) => {
           <Text style={Styles.darkSemiBold12}>Регистрация</Text>
         </TouchableOpacity>
       </View>
-      <Text style={[[Styles.tomatoMedium10, { marginVertical: 15 }]]}>
+      <TouchableOpacity onPress={() => setChecked(!checked)} style={{ flexDirection: 'row', alignItems: "center", gap: 10, marginTop: 30 }}>
+        {!checked ?
+          <ChecboxUNchekedSvg /> :
+          <CheckedChexbox />
+        }
+        <Text style={{ color: "black" }}>Сохранить пароль</Text>
+      </TouchableOpacity>
+      <Text style={[[Styles.tomatoMedium10, { marginVertical: 5 }]]}>
         {loginData.error}
       </Text>
       <Button

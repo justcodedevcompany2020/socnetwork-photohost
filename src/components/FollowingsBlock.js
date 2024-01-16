@@ -1,8 +1,8 @@
-import {View, Image, StyleSheet, Text, TouchableOpacity} from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
-import {AddDeleteFollowAction, DeleteOtherPeople} from '../store/action/action';
-import {AppColors} from '../styles/AppColors';
-import {Styles} from '../styles/Styles';
+import { View, Image, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { AddDeleteFollowAction, DeleteOtherPeople } from '../store/action/action';
+import { AppColors } from '../styles/AppColors';
+import { Styles } from '../styles/Styles';
 export const FollowingsBlock = ({
   name,
   username,
@@ -18,15 +18,15 @@ export const FollowingsBlock = ({
   const staticdata = useSelector(st => st.static);
   const dispatch = useDispatch();
   const addFollow = () => {
-    dispatch(AddDeleteFollowAction({user_id: userId}, staticdata.token));
+    dispatch(AddDeleteFollowAction({ user_id: userId }, staticdata.token));
     addClick();
   };
   const deleteData = () => {
-    if(type1 === 'Удалить'){
-      dispatch(DeleteOtherPeople({user_id: userId}, staticdata.token));
+    if (type1 === 'Удалить') {
+      dispatch(DeleteOtherPeople({ user_id: userId }, staticdata.token));
     }
     else {
-      dispatch(AddDeleteFollowAction({user_id: userId}, staticdata.token))
+      dispatch(AddDeleteFollowAction({ user_id: userId }, staticdata.token))
     }
     deletClick();
   };
@@ -34,15 +34,15 @@ export const FollowingsBlock = ({
     <TouchableOpacity
       onPress={onPress}
       // onPress={() => navigation.navigate('UserProfileScreen')}
-      style={[{marginBottom: 20}, Styles.flexSpaceBetween]}>
+      style={[{ marginBottom: 20 }, Styles.flexSpaceBetween]}>
       <View style={Styles.flexAlignItems}>
         <Image
           style={styles.img}
-          source={{uri: `https://chamba.justcode.am/uploads/${img}`}}
+          source={{ uri: `https://chamba.justcode.am/uploads/${img}` }}
         />
         <View>
-          <Text style={Styles.darkSemiBold14}>{name}</Text>
-          <Text style={Styles.balihaiRegular12}>{username}</Text>
+          <Text style={Styles.darkSemiBold14}>{username}</Text>
+          <Text style={Styles.balihaiRegular12}>{name}</Text>
         </View>
       </View>
       {type2 ? (
@@ -77,12 +77,12 @@ export const FollowingsBlock = ({
                   }}
                   style={[
                     styles.button,
-                    {backgroundColor: AppColors.GoldenTainoi_Color},
+                    { backgroundColor: AppColors.GoldenTainoi_Color },
                   ]}>
                   <Text
                     style={[
                       Styles.darkSemiBold10,
-                      {color: AppColors.White_Color},
+                      { color: AppColors.White_Color },
                     ]}>
                     подписаться
                   </Text>

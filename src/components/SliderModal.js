@@ -1,13 +1,15 @@
-import React from 'react';
-import { Modal, StyleSheet, View, TouchableOpacity } from 'react-native';
+import { Modal, StyleSheet, View, TouchableOpacity, BackHandler } from 'react-native';
 import { ModalSliderImg } from './ModalSliderImg';
 export const SliderModal = ({ modalVisible, photo, activePhoto, close }) => {
+
+
     return <View >
         <Modal
             animationType="slide"
             transparent={true}
             visible={modalVisible}
-            onRequestClose={() => { }}>
+            onRequestClose={() => close()}
+        >
             <View style={styles.centeredView}>
                 <TouchableOpacity activeOpacity={1} style={styles.centeredView2} onPress={() => close()} />
                 <View onClick={(e) => { e.stopPropagation(); }} style={styles.modalView}>

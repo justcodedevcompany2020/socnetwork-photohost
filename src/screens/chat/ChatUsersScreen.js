@@ -99,12 +99,12 @@ export const ChatUsersScreen = ({ navigation }) => {
             <ActivityIndicator size="large" color="#FFC24B" />
           </View>
         )}
-        <Input
+        {data.length > 0 && <Input
           placeholder={'Поиск'}
           search
           value={search}
           onChange={e => searchData(e)}
-        />
+        />}
         <FlatList
           data={data}
           enableEmptySections={true}
@@ -119,7 +119,7 @@ export const ChatUsersScreen = ({ navigation }) => {
             <Text
               style={[
                 Styles.darkMedium16,
-                { marginTop: 40, textAlign: 'center' },
+                { marginTop: 10, textAlign: 'center' },
               ]}>
               {!search ? 'У вас нет сообщений' : 'Не найдено'}
             </Text>

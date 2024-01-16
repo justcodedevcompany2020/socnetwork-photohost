@@ -1,4 +1,4 @@
-import Svg, { Circle, Path, Rect } from "react-native-svg"
+import Svg, { Circle, G, Path, Rect } from "react-native-svg"
 
 export const Eye = () => {
   return <Svg
@@ -554,5 +554,79 @@ export const GenderSvg = () => {
       d="M15.58.002h-2.84a.71.71 0 100 1.42h1.836l-1.704 1.704a4.99 4.99 0 101.004 1.005l1.704-1.704v1.835a.71.71 0 001.42 0v-2.84a1.42 1.42 0 00-1.42-1.42z"
       fill="#CCD6DF"
     />
+  </Svg>
+}
+
+export const SaveSVG = () => {
+  return <Svg
+    xmlns="http://www.w3.org/2000/svg"
+    x="0px"
+    y="0px"
+    width={16}
+    height={16}
+    viewBox="0,0,256,256"
+    fill="#000"
+  >
+    <G
+      fill="none"
+      strokeMiterlimit={10}
+      fontFamily="none"
+      fontWeight="none"
+      fontSize="none"
+      textAnchor="none"
+      style={{
+        mixBlendMode: "normal"
+      }}
+    >
+      <Path
+        d="M20 31.441l-11.5 5.75V2.5h23v34.691z"
+        fill="#fff437"
+        transform="scale(6.4)"
+      />
+      <Path
+        d="M31 3v33.382l-10.553-5.276-.447-.224-.447.224L9 36.382V3h22m1-1H8v36l12-6 12 6V2z"
+        fill="#c74343"
+        transform="scale(6.4)"
+      />
+    </G>
+  </Svg>
+}
+
+export const ChecboxUNchekedSvg = () => {
+  return <Svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="30px"
+    height="30px"
+    viewBox="0 0 24 24"
+  >
+    <Path
+      d="M5.75 3h12.5A2.75 2.75 0 0121 5.75v12.5A2.75 2.75 0 0118.25 21H5.75A2.75 2.75 0 013 18.25V5.75A2.75 2.75 0 015.75 3zm0 1.5c-.69 0-1.25.56-1.25 1.25v12.5c0 .69.56 1.25 1.25 1.25h12.5c.69 0 1.25-.56 1.25-1.25V5.75c0-.69-.56-1.25-1.25-1.25H5.75z"
+      fill="#FFD953"
+      fillRule="nonzero"
+      stroke="none"
+      strokeWidth={1}
+    />
+  </Svg>
+}
+
+export const CheckedChexbox = () => {
+  return <Svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="#FFD953"
+    width="30px"
+    height="30px"
+    viewBox="0 0 32 32"
+    id="icon"
+  >
+    <G id="SVGRepo_iconCarrier">
+      <Path d="M26 4H6a2 2 0 00-2 2v20a2 2 0 002 2h20a2 2 0 002-2V6a2 2 0 00-2-2zM6 26V6h20v20z" />
+      <Path d="M14 21.5L9 16.54 10.59 15 14 18.35 21.41 11 23 12.58 14 21.5z" />
+      <Path
+        id="_Transparent_Rectangle_"
+        data-name="&lt;Transparent Rectangle&gt;"
+        d="M0 0H32V32H0z"
+        fill="none"
+      />
+    </G>
   </Svg>
 }

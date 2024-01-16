@@ -203,15 +203,15 @@ export const ChatScreen = ({ navigation, route }) => {
             />
             <View style={{ marginHorizontal: 20 }}>
               <Text style={Styles.darkMedium14}>
-                {getSinglePageChat.resiverUser.name}
+                {getSinglePageChat.resiverUser.nickname}
               </Text>
               <Text style={Styles.balihaiMedium13}>
-                @{getSinglePageChat.resiverUser.nickname}
+                @{getSinglePageChat.resiverUser.name}
               </Text>
             </View>
           </View>
         </View>
-        <TouchableOpacity onPress={() => handlePresentModalPress()}>
+        <TouchableOpacity style={{ width: 30, height: 30, alignItems: 'flex-end' }} onPress={() => handlePresentModalPress()}>
           <MenuSvg />
         </TouchableOpacity>
       </View>

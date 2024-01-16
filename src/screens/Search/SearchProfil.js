@@ -96,8 +96,8 @@ export const SearchProfil = ({ navigation, route }) => {
               source={{ uri: `https://chamba.justcode.am/uploads/${singlPage.data.avatar}` }}
             />
             <View style={{ marginTop: 7, marginBottom: 15, alignItems: 'center' }}>
-              <Text style={Styles.darkMedium16}>{singlPage.data.name}</Text>
-              <Text style={Styles.balihaiRegular12}>@{singlPage.data.nickname}</Text>
+              <Text style={Styles.darkMedium16}>{singlPage.data.nickname}</Text>
+              <Text style={Styles.balihaiRegular12}>@{singlPage.data.name}</Text>
             </View>
             {singlPage.data.description && (
               <Text style={Styles.darkRegular14}>{singlPage.data.description}</Text>

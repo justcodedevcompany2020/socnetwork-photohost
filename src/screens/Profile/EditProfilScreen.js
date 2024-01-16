@@ -22,6 +22,7 @@ export const EditProfilScreen = ({ navigation }) => {
   const [calendar, setCalendar] = useState(false)
   const [city, setCity] = useState(false)
   const [openMount, setOpenMout] = useState(false)
+  const [height, setHeight] = useState();
   const [data1, setData] = useState([
     { name: 'Январь', id: 0 },
     { name: 'Февраль', id: 1 },
@@ -72,7 +73,7 @@ export const EditProfilScreen = ({ navigation }) => {
     { type: 'input', value: '', svg: <WorkLocation />, placeholder: 'Место работы', disabled: true },
     { type: 'input', value: '', svg: <NetWorkSvg />, placeholder: 'Сайт', disabled: true },
     { type: 'input', value: '', svg: <EmailSvg />, placeholder: 'Почта', disabled: false },
-    { type: 'input', value: '', svg: <PhoneSvg />, placeholder: 'Телефон', disabled: true },
+    { type: 'input', value: '', svg: <PhoneSvg />, placeholder: 'Номер телефона', disabled: true },
   ])
 
   useEffect(() => {
@@ -170,19 +171,18 @@ export const EditProfilScreen = ({ navigation }) => {
     } else {
       setError('');
     }
-    if (error === '' && send) {
-      dispatch(
-        chnageUserProfil(
-          {
-            name: name,
-            nickname: username,
-            description: discription,
-          },
-          staticdata.token,
-        ),
-      );
-    }
-    console.log(data[1].value, 'data1')
+    // if (error === '' && send) {
+    dispatch(
+      chnageUserProfil(
+        {
+          name: name,
+          nickname: username,
+          description: discription,
+        },
+        staticdata.token,
+      ),
+    );
+    // }
     if (imgUrl) {
       dispatch(chnageAvatarAction(imgUrl, staticdata.token));
     }
@@ -197,7 +197,7 @@ export const EditProfilScreen = ({ navigation }) => {
       web: data[5].value,
       phone: data[7].value,
     }, staticdata.token))
-    navigation.navigate('ProfileScreen');
+    // navigation.navigate('ProfileScreen');
     dispatch(ClearChangeProfile());
     dispatch(ClearChangeAvatar())
   };
@@ -234,10 +234,9 @@ export const EditProfilScreen = ({ navigation }) => {
                 : `https://chamba.justcode.am/uploads/${user.data.avatar}`,
             }}
           />
-
-          <TouchableOpacity onPress={() => changeImg()} style={styles.edit}>
+          {/* <TouchableOpacity onPress={() => changeImg()} style={styles.edit}>
             <EditAvaterSvg />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </View>
 
@@ -257,11 +256,16 @@ export const EditProfilScreen = ({ navigation }) => {
       </View>
       <View style={styles.textWrapper}>
         <TextInput
-          placeholder="кратко о себе"
+          placeholder="Кратко о себе"
           placeholderTextColor={'#8C9CAB'}
+          multiline={true}
           value={discription}
+          onContentSizeChange={event => {
+            setHeight(event.nativeEvent.contentSize.height);
+          }}
+          style={[Styles.balihaiMedium14, { height: height }]}
           onChangeText={e => setDiscription(e)}
-          style={Styles.balihaiMedium14}
+        // style={Styles.balihaiMedium14}
         />
       </View>
 

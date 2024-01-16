@@ -1,19 +1,23 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   View,
   StyleSheet,
   Image,
   FlatList,
   Dimensions,
+  Text,
   TouchableOpacity,
+  BackHandler,
 } from 'react-native';
 import { AppColors } from '../styles/AppColors';
 import { SliderModal } from './SliderModal';
+import { Styles } from '../styles/Styles';
 
 const windowWidth = Dimensions.get('window').width;
-export const Slider = ({ photo, single, activePhoto }) => {
+export const Slider = ({ photo, single, activePhoto, description }) => {
   const [active, setActive] = useState(0);
   const [openSlider, setOpenSlider] = useState(false)
+
   return (
     <View>
       <FlatList
@@ -39,22 +43,39 @@ export const Slider = ({ photo, single, activePhoto }) => {
             aspectRatio = 0.2 + item.height / item.width
           }
           if (aspectRatio > 1) {
-            aspectRatio = 0.72
+            if (single) {
+              aspectRatio = 0.61
+            }
+            else {
+              aspectRatio = 0.70
+            }
           }
           else if (aspectRatio < 1) {
-            aspectRatio = 0.72
+            if (single) {
+              aspectRatio = 0.61
+
+            }
+            else {
+              aspectRatio = 0.70
+            }
           }
           return (
             <TouchableOpacity
               onPress={() => setOpenSlider(true)}
-              style={!single ? styles.img : { ...styles.img, width: windowWidth, height: 350 }}>
+              style={!single ? styles.img : { ...styles.img, width: windowWidth }}>
+
               <Image
                 style={[
-                  { marginVertical: 5, width: '100%', aspectRatio: aspectRatio ? aspectRatio : 1 },
+                  { width: '100%', aspectRatio: aspectRatio ? aspectRatio : 1 },
                 ]}
                 source={{ uri: `https://chamba.justcode.am/uploads/${item.photo}` }}
                 resizeMode={'cover'}
               />
+              <View style={{ paddingHorizontal: 15, position: 'absolute', top: 0, width: '100%', padding: 10, backgroundColor: "rgba(0,0,0,0.5)" }}>
+                <Text style={[Styles.darkSemiBold12, { color: 'white' }]}>
+                  {description}
+                </Text>
+              </View>
             </TouchableOpacity>
           );
         }}
@@ -78,14 +99,19 @@ export const Slider = ({ photo, single, activePhoto }) => {
             ]}></View>
         ))}
       </View>
-      <SliderModal modalVisible={openSlider} activePhoto={active} photo={photo} close={() => setOpenSlider(false)} />
+      {openSlider &&
+
+        <SliderModal
+
+          modalVisible={openSlider} activePhoto={active} photo={photo} close={() => setOpenSlider(false)} />
+      }
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   img: {
-    // height: 550,
+    // height: 52220,
     width: windowWidth,
     flexShrink: 0,
   },

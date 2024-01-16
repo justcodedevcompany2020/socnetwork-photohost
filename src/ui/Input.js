@@ -37,7 +37,9 @@ export const Input = forwardRef(
     sendMsg,
     value,
     sendCom,
-    pdR
+    pdR,
+    clearText,
+    clear,
   }, ref) => {
     const [securyty, setSecuryty] = useState(pass);
     return (
@@ -70,7 +72,7 @@ export const Input = forwardRef(
         />
         {pass && (
           <TouchableOpacity
-            style={styles.eye}
+            style={[styles.eye, clear ? { right: 35 } : { right: 20 }]}
             onPress={() => setSecuryty(!securyty)}>
             <Eye />
           </TouchableOpacity>
@@ -99,12 +101,21 @@ export const Input = forwardRef(
             </TouchableOpacity>
           </View>
         )}
+
         {!msg && !send && (
           <Text style={[[Styles.tomatoMedium10, { marginBottom: 5 }]]}>
             {error}
           </Text>
         )}
+        {clear && (
+          <View style={[Styles.flexAlignItems, styles.clear]}>
+            <TouchableOpacity onPress={clearText} style={styles.clearText}>
+              <Text style={{ fontSize: 17 }}>x</Text>
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
+
     );
   });
 
@@ -124,4 +135,18 @@ const styles = StyleSheet.create({
     right: 20,
     height: '70%',
   },
+  clear: {
+    position: 'absolute',
+    right: 20,
+    height: '65%',
+    top: 0,
+    bottom: 0,
+    margin: 'auto',
+  },
+  clearText: {
+    height: '100%',
+    textAlign: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }
 });

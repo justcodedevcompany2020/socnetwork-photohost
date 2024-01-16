@@ -74,7 +74,8 @@ export const AddImg = ({ navigation }) => {
       height: 450,
       cropping: false,
       mediaType: 'photo',
-      multiple: true,
+      maxFiles: 2,
+      // multiple: true,
     }).then(image => {
       let item = [...uri]
       item = item.concat(image);
@@ -130,8 +131,12 @@ export const AddImg = ({ navigation }) => {
           placeholderTextColor={'#8C9CAB'}
         />
       </View>
+
       <View style={{ margin: 20 }}>
-        <Button onPress={() => addPhoto()} title={'добавить фото'} width={120} />
+        {uri.length < 6 &&
+
+          <Button onPress={() => addPhoto()} title={'добавить фото'} width={120} />
+        }
       </View>
     </View>
   );

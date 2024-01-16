@@ -1,15 +1,17 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
     View,
     StyleSheet,
     Image,
     Dimensions,
     StatusBar,
+    BackHandler,
 } from 'react-native';
 import SwiperFlatList from 'react-native-swiper-flatlist';
 
 const windowWidth = Dimensions.get('window').width;
 export const ModalSliderImg = ({ photo, single, activePhoto }) => {
+
     const [active, setActive] = useState(0);
     return (
         <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center', borderRadius: 30 }}>
@@ -43,7 +45,6 @@ export const ModalSliderImg = ({ photo, single, activePhoto }) => {
                                 style={[
                                     { marginVertical: 10, width: windowWidth, aspectRatio: aspectRatio ? aspectRatio : 1, borderRadius: 0 },
                                 ]}
-                                // source={require('../assets/img/1.png')}
                                 source={{ uri: `https://chamba.justcode.am/uploads/${item.photo}` }}
                             // resizeMode={'cover'}
                             />

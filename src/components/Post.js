@@ -5,12 +5,13 @@ import {
   Image,
   Text,
   TouchableOpacity,
+  BackHandler,
 } from 'react-native';
 import { Shadow } from 'react-native-shadow-2';
 import { useDispatch, useSelector } from 'react-redux';
 import { CheckMarkUserSvg, NotLineSvg } from '../assets/svg/Svgs';
 import { Comment, Heart, MenuSvg, ViewSvg } from '../assets/svg/TabBarSvg';
-import { AddBlackListAction, AddDeleteFollowAction, AddInBookAction, LikePostAction } from '../store/action/action';
+import { AddBlackListAction, AddDeleteFollowAction, AddInBookAction, GetPostLikeAction, LikePostAction } from '../store/action/action';
 import { AppColors } from '../styles/AppColors';
 import { Styles } from '../styles/Styles';
 import { Comments } from './Comment';
@@ -58,6 +59,8 @@ export const Post = ({
   const [activePhoto, setActivePhoto] = useState(0)
   const mounth = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря']
   const dispatch = useDispatch()
+  const [showSave, setShowSave] = useState(false)
+
   const LikePost = () => {
     if (isLiked) {
       setLikedCount(likedCount - 1)
@@ -74,6 +77,15 @@ export const Post = ({
   }
 
 
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setShowSave(false);
+    }, 5000);
+
+    return () => clearTimeout(timeoutId);
+  }, [showSave]);
+
+
   const addToBlackList = () => {
     addToblack(userId)
     bottomSheetRef.current?.close();
@@ -82,6 +94,7 @@ export const Post = ({
 
 
   const addToBook = () => {
+    setShowSave(true)
     bottomSheetRef.current?.close();
     dispatch(AddInBookAction({ 'post_id': id }, staticdata.token))
     setBook(!book)
@@ -111,11 +124,23 @@ export const Post = ({
 
   return (
     <TouchableOpacity activeOpacity={1} onPress={() => setOpenModal(false)} >
+      {showSave &&
+        <View style={styles.blocks}>
+          <View style={[styles.card, styles.shadowProp]}>
+            <View style={{ flexDirection: "row", alignItems: "center", justifyContent: 'center', gap: 30 }}>
+              <Image source={require('../assets/img/icons8-save-30.png')} />
+              <Text style={styles.heading}>
+                Запись сохранена в закладках
+              </Text>
+            </View>
+          </View>
+        </View>
+      }
       <Shadow
         style={{ width: '100%', borderRadius: 20, backgroundColor: '#fff', position: 'relative' }}
         startColor={'#00000010'}>
         <View style={styles.block}>
-          <View style={[Styles.flexSpaceBetween, { padding: 15, position: 'relative' }]}>
+          <View style={[Styles.flexSpaceBetween, { padding: 10, position: 'relative' }]}>
             <TouchableOpacity onPress={() =>
               user.data.id !== userId ? navigation.navigate('SearchProfil', { id: userId }) :
                 navigation.navigate('ProfileNavigation')
@@ -192,12 +217,12 @@ export const Post = ({
             }
           </View>
 
-          <View style={{ paddingHorizontal: 15 }}>
+          {/* <View style={{ paddingHorizontal: 15 }}>
             <Text style={Styles.darkSemiBold12}>
               {description}
             </Text>
-          </View>
-          <Slider photo={photo} activePhoto={(e) => setActivePhoto(e)} />
+          </View> */}
+          <Slider description={description} photo={photo} activePhoto={(e) => setActivePhoto(e)} />
           <View
             style={[
               { paddingHorizontal: 15, marginBottom: 15 },
@@ -210,6 +235,8 @@ export const Post = ({
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => {
                   setOpenLike(true)
+                  // setId(id)
+                  dispatch(GetPostLikeAction({ post_id: id }, staticdata.token, 1));
                   handlePresentModalPressLike()
                 }
                 }>
@@ -233,7 +260,15 @@ export const Post = ({
             </View>
           </View>
         </View>
-        <LikeList close={() => CloseLike()} count={likedCount} openLike={openLike} token={staticdata.token} id={id} ref={likeRef} snapPoints={snapPointsLike} />
+        <LikeList
+          close={() => CloseLike()}
+          count={likedCount}
+          openLike={openLike}
+          token={staticdata.token}
+          id={id}
+          ref={likeRef}
+          snapPoints={snapPointsLike}
+        />
         <Comments
           userImg={userImg}
           userName={userName}
@@ -281,5 +316,35 @@ const styles = StyleSheet.create({
     padding: 5,
     paddingHorizontal: 10,
     borderRadius: 30
-  }
+  },
+  blocks: {
+    zIndex: 999,
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    bottom: 20,
+    width: '100%'
+  },
+  heading: {
+    fontSize: 14,
+    fontWeight: '600',
+    marginBottom: 13,
+    color: 'black'
+  },
+  card: {
+    backgroundColor: 'white',
+    borderRadius: 8,
+    padding: 10,
+    marginVertical: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 50,
+  },
+
+  shadowProp: {
+    shadowColor: 'black',
+    shadowOffset: { width: -2, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+  },
 });
