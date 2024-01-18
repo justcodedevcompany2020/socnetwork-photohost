@@ -86,6 +86,7 @@ export const LikeList = forwardRef(
               }
             }}>
             {getPostLike.data.map((elm, i) => {
+              console.log(elm)
               return (
                 <TouchableOpacity
                   onPress={() => {
@@ -110,7 +111,7 @@ export const LikeList = forwardRef(
                     }}
                   />
                   <Text style={[Styles.darkMedium13, { marginHorizontal: 10 }]}>
-                    {elm.user.name}
+                    {elm.user.nickname}
                   </Text>
                 </TouchableOpacity>
               );

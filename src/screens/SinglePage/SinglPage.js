@@ -46,6 +46,8 @@ export const SinglPageScreen = ({ route, navigation }) => {
   const [activePhoto, setActivePhoto] = useState(0)
   const [active, setActive] = useState(0);
 
+  const [saveType, setSaveType] = useState('Запись сохранена в закладках')
+
 
   const [sendComment, setSendCommet] = useState('');
   const textInputRef = useRef(null);
@@ -166,21 +168,24 @@ export const SinglPageScreen = ({ route, navigation }) => {
     <SafeAreaView>
       {showSave &&
         <View style={styles.block}>
-          <View style={[styles.card, styles.shadowProp]}>
-            <View style={{ flexDirection: "row", alignItems: "center", justifyContent: 'center', gap: 30 }}>
-              <Image source={require('../../assets/img/icons8-save-30.png')} />
-              <Text style={styles.heading}>
-                Запись сохранена в закладках
-              </Text>
+          <Shadow
+            style={{ width: '100%', borderRadius: 10, backgroundColor: '#fff', justifyContent: 'center', alignItems: "center", height: 50 }}
+            startColor={'#00000010'}
+          >
+            <View style={styles.card}>
+              <View style={{ flexDirection: "row", alignItems: "center", justifyContent: 'center', gap: 10, paddingHorizontal: 2 }}>
+                <Image source={require('../../assets/img/icons8-save-30.png')} />
+                <Text style={styles.heading}>{saveType}</Text>
+              </View>
             </View>
-          </View>
+          </Shadow>
         </View>
       }
       <ScrollView style={{ height: '100%' }} showsVerticalScrollIndicator={false}>
         <View
           style={[
             Styles.flexSpaceBetween,
-            { paddingHorizontal: 20, marginTop: 20, marginBottom: 20 },
+            { paddingHorizontal: 20, marginTop: 20, marginBottom: 10 },
           ]}>
           <TouchableOpacity onPress={() => {
             // dispatch(ClearSinglpAgeComment())
@@ -194,9 +199,13 @@ export const SinglPageScreen = ({ route, navigation }) => {
             style={{ marginTop: -5, paddingLeft: 15 }}>
             <MenuSvg />
           </TouchableOpacity>
+
         </View>
+        {singlData?.data?.description && <Text style={[Styles.darkSemiBold12, { marginTop: 5, marginBottom: 10, paddingHorizontal: 20 }]}>
+          {singlData?.data?.description}
+        </Text>}
         <View>
-          <Slider description={singlData.data.description} activePhoto={(e) => setActivePhoto(e)} single photo={singlData.data.photo} />
+          <Slider activePhoto={(e) => setActivePhoto(e)} single photo={singlData.data.photo} />
           {/* <Text style={[Styles.darkSemiBold12, { color: 'white', fontSize: 15, position: 'absolute', padding: 10, backgroundColor: 'rgba(0,0,0,0.5)', width: '100%', top: 0 }]}>
             {singlData.data.description}
           </Text> */}
@@ -267,14 +276,14 @@ export const SinglPageScreen = ({ route, navigation }) => {
           </View>
         </View>
 
-        {/* <Comments
+        <Comments
           userName={singlData.data.user?.name}
           userImg={singlData.data.user?.avatar}
           description={singlData.data.description}
           parentId={id}
           visible={comment}
           close={() => setComment(false)}
-        /> */}
+        />
 
 
 
@@ -284,7 +293,10 @@ export const SinglPageScreen = ({ route, navigation }) => {
             <View style={{ paddingHorizontal: 20 }}>
               {user?.data?.id != singlData?.data?.user?.id && <TouchableOpacity
                 style={{ marginBottom: 20, marginTop: 20 }}
-                onPress={() => addToBook()}>
+                onPress={() => {
+                  addToBook()
+                  setSaveType(book ? "Запись удалена из закладок" : 'Запись сохранена в закладках')
+                }}>
                 <Text style={Styles.darkRegular14}>
                   {book ? 'Удалить из закладок' : 'В закладки'}
                 </Text>
@@ -383,7 +395,6 @@ export const styles = StyleSheet.create({
   heading: {
     fontSize: 14,
     fontWeight: '600',
-    marginBottom: 13,
     color: 'black'
   },
   card: {

@@ -44,7 +44,7 @@ export const Slider = ({ photo, single, activePhoto, description }) => {
           }
           if (aspectRatio > 1) {
             if (single) {
-              aspectRatio = 0.61
+              aspectRatio = 0.65
             }
             else {
               aspectRatio = 0.70
@@ -52,7 +52,7 @@ export const Slider = ({ photo, single, activePhoto, description }) => {
           }
           else if (aspectRatio < 1) {
             if (single) {
-              aspectRatio = 0.61
+              aspectRatio = 0.65
 
             }
             else {
@@ -71,11 +71,11 @@ export const Slider = ({ photo, single, activePhoto, description }) => {
                 source={{ uri: `https://chamba.justcode.am/uploads/${item.photo}` }}
                 resizeMode={'cover'}
               />
-              <View style={{ paddingHorizontal: 15, position: 'absolute', top: 0, width: '100%', padding: 10, backgroundColor: "rgba(0,0,0,0.5)" }}>
+              {/* {description && <View style={{ paddingHorizontal: 15, position: 'absolute', top: 0, width: '100%', padding: 10, backgroundColor: "rgba(0,0,0,0.5)" }}>
                 <Text style={[Styles.darkSemiBold12, { color: 'white' }]}>
                   {description}
                 </Text>
-              </View>
+              </View>} */}
             </TouchableOpacity>
           );
         }}

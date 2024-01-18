@@ -33,9 +33,9 @@ export const ProfileScreen = ({ navigation, profile }) => {
 
   const changeImg = () => {
     ImagePicker.openPicker({
-      width: 80,
-      height: 80,
-      cropping: true,
+      width: 450,
+      height: 450,
+      cropping: false,
     }).then(image => {
       setImgUrl(image.path);
       setImgFile(image);
@@ -156,25 +156,31 @@ export const ProfileScreen = ({ navigation, profile }) => {
                 source={{ uri: `https://chamba.justcode.am/uploads/${user?.avatar}` }}
               /> */}
             </TouchableOpacity>
-            {changeAvatar && <View style={{ top: 80, position: "absolute", }}>
+            {changeAvatar && <View style={{ top: 100, position: "absolute", }}>
               <Shadow
                 style={styles.block}
-                startColor={'#00000010'}>
-                <TouchableOpacity style={{ flexDirection: 'row', gap: 10 }} onPress={() => {
-
+                startColor={'#00000010'}
+              >
+                <TouchableOpacity style={{ flexDirection: 'row', gap: 10, width: 150, }} onPress={() => {
                   setChangeAvatar(false)
                   setOpenSlider(true)
                 }}>
-                  <Image style={{ width: 20, height: 20 }} source={require('../../assets/img/user1.png')} />
-                  <Text >Открыть фото</Text>
+                  <View style={{ width: 25, height: 25 }}>
+                    <Image style={{ width: 23, height: 23 }} source={require('../../assets/img/user1.png')} />
+                  </View>
+                  <Text style={{ color: "black", fontSize: 14, fontWeight: '500', }}>Открыть фото</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={{ flexDirection: 'row', gap: 10 }}>
-                  <Image style={{ width: 20, height: 20, marginLeft: -2 }} source={require('../../assets/img/edit.png')} />
-                  <Text onPress={() => changeImg()}>Изменить фото</Text>
+                <TouchableOpacity style={{ flexDirection: 'row', gap: 10, width: 150 }}>
+                  <View style={{ width: 25, height: 25 }}>
+                    <Image style={{ width: 25, height: 20, marginLeft: -2 }} source={require('../../assets/img/edit.png')} />
+                  </View>
+                  <Text style={{ color: "black", fontSize: 14, fontWeight: '500', }} onPress={() => changeImg()}>Изменить фото</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={{ flexDirection: 'row', gap: 10 }} onPress={() => DelatePhoto()}>
-                  <Image style={{ width: 20, height: 20 }} source={require('../../assets/img/delete.png')} />
-                  <Text>Удалить фото</Text>
+                <TouchableOpacity style={{ flexDirection: 'row', gap: 10, width: 150 }} onPress={() => DelatePhoto()}>
+                  <View style={{ width: 25, height: 25 }}>
+                    <Image style={{ width: 23, height: 23 }} source={require('../../assets/img/delete.png')} />
+                  </View>
+                  <Text style={{ color: "black", fontWeight: '500', fontSize: 14, }}>Удалить фото</Text>
                 </TouchableOpacity>
               </Shadow>
             </View>}
@@ -256,7 +262,6 @@ export const ProfileScreen = ({ navigation, profile }) => {
         </ScrollView >
         <Menu close={() => setOpenMenu(false)} visible={openMenu} />
         <SliderModal
-
           modalVisible={openSlider} activePhoto={active} photo={[{ photo: user.avatar }]} close={() => setOpenSlider(false)} />
       </TouchableOpacity >
     );
@@ -265,8 +270,8 @@ export const ProfileScreen = ({ navigation, profile }) => {
 
 const styles = StyleSheet.create({
   img: {
-    width: 80,
-    height: 80,
+    width: 90,
+    height: 90,
     borderRadius: 50,
   },
   textWrapper: {
@@ -283,6 +288,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     position: 'relative',
     zIndex: 999,
-    gap: 10
+    gap: 13
   }
 });

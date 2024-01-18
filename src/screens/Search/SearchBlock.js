@@ -43,7 +43,7 @@ export const SearchBlock = () => {
 
     const delayDebounceFn = setTimeout(() => {
       sendData()
-      setData(data)
+      // setData(data)
     }, 400)
 
     return () => clearTimeout(delayDebounceFn)
@@ -189,7 +189,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     paddingHorizontal: 10,
     paddingTop: 15,
-    elevation: 1,
     flexDirection: 'row',
   },
   eye: {

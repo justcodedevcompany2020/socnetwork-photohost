@@ -44,7 +44,10 @@ export const CommentBlock = ({
         daysAgo={daysAgo}
       />
       {showAnswrs &&
-        <CommentComponent token={staticdata.token} onPressAnsswer={onPressAnsswer} commentData={replay} />
+        <CommentComponent
+          onDeletComment={deletComment}
+
+          token={staticdata.token} onPressAnsswer={onPressAnsswer} commentData={replay} />
       }
       {!owner && (
         <TouchableOpacity onPress={() => setShowAnswers(!showAnswrs)}>

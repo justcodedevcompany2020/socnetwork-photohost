@@ -60,6 +60,10 @@ export const Post = ({
   const mounth = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря']
   const dispatch = useDispatch()
   const [showSave, setShowSave] = useState(false)
+  const [showMore, setShowMore] = useState(true)
+  const [D, setD] = useState(description)
+
+  const [saveType, setSaveType] = useState('Запись сохранена в закладках')
 
   const LikePost = () => {
     if (isLiked) {
@@ -122,18 +126,38 @@ export const Post = ({
     setDay(`${dayOfMonth} ${mounth[Mounth]} в ${hour}:${minute}`)
   }, [data])
 
+
+  useEffect(() => {
+    CutText()
+  }, [showMore])
+
+  const CutText = () => {
+    let t = ''
+    console.log(showMore)
+    if (showMore) {
+      t = description?.substring(0, 50)
+    }
+    else {
+      t = description
+    }
+    setD(t)
+  }
+
   return (
     <TouchableOpacity activeOpacity={1} onPress={() => setOpenModal(false)} >
       {showSave &&
         <View style={styles.blocks}>
-          <View style={[styles.card, styles.shadowProp]}>
-            <View style={{ flexDirection: "row", alignItems: "center", justifyContent: 'center', gap: 30 }}>
-              <Image source={require('../assets/img/icons8-save-30.png')} />
-              <Text style={styles.heading}>
-                Запись сохранена в закладках
-              </Text>
+          <Shadow
+            style={{ width: '100%', borderRadius: 10, backgroundColor: '#fff', justifyContent: 'center', alignItems: "center", height: 50 }}
+            startColor={'#00000010'}
+          >
+            <View style={styles.card}>
+              <View style={{ flexDirection: "row", alignItems: "center", justifyContent: 'center', gap: 10, paddingHorizontal: 2 }}>
+                <Image source={require('../assets/img/icons8-save-30.png')} />
+                <Text style={styles.heading}>{saveType}</Text>
+              </View>
             </View>
-          </View>
+          </Shadow>
         </View>
       }
       <Shadow
@@ -188,13 +212,12 @@ export const Post = ({
                 </TouchableOpacity>
               </View>}
 
-
-
             {(user.data.id != userId && openModal) &&
               <View style={styles.infoBlock}>
                 <TouchableOpacity style={{ marginVertical: 20 }} onPress={() => {
                   setOpenModal(false)
                   addToBook()
+                  setSaveType(book ? "Запись удалена из закладок" : 'Запись сохранена в закладках')
                 }}>
                   <Text style={Styles.darkRegular14}>{book ? 'Удалить из закладок' : 'В закладки'}</Text>
                 </TouchableOpacity>
@@ -217,11 +240,18 @@ export const Post = ({
             }
           </View>
 
-          {/* <View style={{ paddingHorizontal: 15 }}>
+          <View style={{ paddingHorizontal: 15, marginBottom: 10 }}>
             <Text style={Styles.darkSemiBold12}>
-              {description}
+
+              {D} {description?.length > 50 &&
+                (showMore ?
+                  <Text style={{ color: "#037ffc", fontSize: 13 }} onPress={() => setShowMore(false)}>Показать ещё</Text> :
+                  <Text style={{ color: "#037ffc", fontSize: 13 }} onPress={() => setShowMore(true)}>Скрыть</Text>
+                )
+              }
+
             </Text>
-          </View> */}
+          </View>
           <Slider description={description} photo={photo} activePhoto={(e) => setActivePhoto(e)} />
           <View
             style={[
@@ -328,7 +358,6 @@ const styles = StyleSheet.create({
   heading: {
     fontSize: 14,
     fontWeight: '600',
-    marginBottom: 13,
     color: 'black'
   },
   card: {
@@ -339,12 +368,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     height: 50,
-  },
-
-  shadowProp: {
-    shadowColor: 'black',
-    shadowOffset: { width: -2, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
   },
 });

@@ -56,7 +56,7 @@ export const EditProfilScreen = ({ navigation }) => {
   const staticdata = useSelector(st => st.static);
   const changeProfil = useSelector(st => st.changeUserProfil);
   const bottomSheetRef = useRef(null);
-  const snapPoints = useMemo(() => ['20%'], []);
+  const snapPoints = useMemo(() => ['16%'], []);
   const changeAvatar = useSelector(st => st.changeAvatar);
   const [imgUrl, setImgUrl] = useState('');
   const [imgFile, setImgFile] = useState();
@@ -240,17 +240,18 @@ export const EditProfilScreen = ({ navigation }) => {
         </View>
       </View>
 
+
       <View style={styles.textWrapper}>
         <TextInput
-          value={name}
-          onChangeText={e => setName(e)}
+          value={username}
+          onChangeText={e => setUsername(e)}
           style={Styles.darkMedium14}
         />
       </View>
       <View style={styles.textWrapper}>
         <TextInput
-          value={username}
-          onChangeText={e => setUsername(e)}
+          value={name}
+          onChangeText={e => setName(e)}
           style={Styles.darkMedium14}
         />
       </View>
@@ -358,12 +359,12 @@ export const EditProfilScreen = ({ navigation }) => {
             }} style={{ marginBottom: 20 }}>
               <Text style={Styles.darkRegular14}>Женский</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => {
+            {/* <TouchableOpacity onPress={() => {
               hadnelChange(2, 'Не указывать')
               bottomSheetRef.current?.close()
             }} style={{ marginBottom: 20 }}>
               <Text style={Styles.darkRegular14}>Не указывать</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
         </BootomModal>
       </View>
