@@ -86,7 +86,6 @@ export const LikeList = forwardRef(
               }
             }}>
             {getPostLike.data.map((elm, i) => {
-              console.log(elm)
               return (
                 <TouchableOpacity
                   onPress={() => {

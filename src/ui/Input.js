@@ -59,10 +59,10 @@ export const Input = forwardRef(
           onBlur={onBlur}
           style={[
             styles.Input,
-            { paddingRight: pass ? 45 : 7 },
-            { paddingRight: msg ? 80 : 7 },
-            { paddingRight: send ? 50 : 7 },
+            { paddingRight: msg ? 80 : 30 },
+            { paddingRight: send ? 50 : 30 },
             { paddingRight: pdR },
+            { paddingRight: pass ? 70 : 30 },
           ]}
           placeholder={placeholder}
           placeholderTextColor={AppColors.BaliHai_Color}
@@ -72,7 +72,7 @@ export const Input = forwardRef(
         />
         {pass && (
           <TouchableOpacity
-            style={[styles.eye, clear ? { right: 35 } : { right: 20 }]}
+            style={[styles.eye, clear ? { right: 45 } : { right: 20 }]}
             onPress={() => setSecuryty(!securyty)}>
             <Eye />
           </TouchableOpacity>

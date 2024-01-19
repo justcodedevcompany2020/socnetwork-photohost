@@ -497,7 +497,6 @@ export const ChangeMail = email => {
 };
 
 export const chnageAvatarAction = (url, token) => {
-  console.log(url)
   return dispatch => {
     dispatch(StartChangeAvatar());
     var myHeaders = new Headers();
@@ -527,7 +526,6 @@ export const chnageAvatarAction = (url, token) => {
     )
       .then(response => response.json())
       .then(r => {
-        console.log(r)
         if (r.status) {
           dispatch(SuccessChangeAvatar());
           dispatch(ChangeAvatar(r.avatar));
@@ -536,7 +534,6 @@ export const chnageAvatarAction = (url, token) => {
         }
       })
       .catch(error => {
-        console.log(error)
         dispatch(ErrorChangeAvatar());
       });
   };
@@ -1034,6 +1031,7 @@ export const GetMyBooksAction = (token, page) => {
       .then(response => response.json())
       .then(r => {
         if (r.status) {
+          console.log(r.data)
           dispatch(SuccessGetMyBooks(r));
         } else {
           dispatch(ErrorGetMyBooks('server error'));

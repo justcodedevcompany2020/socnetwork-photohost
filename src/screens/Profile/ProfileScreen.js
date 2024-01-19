@@ -40,7 +40,6 @@ export const ProfileScreen = ({ navigation, profile }) => {
       setImgUrl(image.path);
       setImgFile(image);
       if (image.path) {
-        console.log('11')
         setChangeAvatar(false)
         dispatch(chnageAvatarAction(image.path, staticdata.token));
       }
@@ -252,7 +251,7 @@ export const ProfileScreen = ({ navigation, profile }) => {
               return <View key={i} style={{ width: width - 32 }}>
                 {elm === 'albom' ?
                   <View>
-                    <Albom loading={getPosts.loading} data={getPosts.data} />
+                    <Albom loading={getPosts.loading} data1={getPosts.data1} data={getPosts.data} />
                   </View> :
                   <InfoBlock user={user.data} />
                 }

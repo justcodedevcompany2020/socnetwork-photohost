@@ -84,7 +84,7 @@ export const Post = ({
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       setShowSave(false);
-    }, 5000);
+    }, 1000);
 
     return () => clearTimeout(timeoutId);
   }, [showSave]);
@@ -133,7 +133,6 @@ export const Post = ({
 
   const CutText = () => {
     let t = ''
-    console.log(showMore)
     if (showMore) {
       t = description?.substring(0, 50)
     }
@@ -270,14 +269,14 @@ export const Post = ({
                   handlePresentModalPressLike()
                 }
                 }>
-                  <Text style={[Styles.darkMedium14, { marginLeft: 4 }]}>{likedCount}</Text>
+                  <Text style={[Styles.darkMedium14, { marginLeft: 4 }]}> - {likedCount}</Text>
                 </TouchableOpacity>
               </View>
               <View style={[Styles.flexAlignItems, { marginRight: 15 }]}>
                 <TouchableOpacity onPress={() => setComment(true)}>
                   <Comment />
                 </TouchableOpacity>
-                <Text style={[Styles.darkMedium14, { marginLeft: 5 }]}>{commentCount}</Text>
+                <Text style={[Styles.darkMedium14, { marginLeft: 5 }]}> - {commentCount}</Text>
               </View>
             </View>
             <View>

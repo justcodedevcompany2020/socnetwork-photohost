@@ -43,19 +43,19 @@ export const SavedPostScreen = ({ navigation }) => {
     return unsubscribe;
   }, [navigation]);
 
-  const renderItem = ({ item, index }) => {
-    return (
-      <TouchableOpacity>
-        <Image
-          style={styles.img}
-          source={{
-            uri: `https://chamba.justcode.am/uploads/${item.post.photo[0].photo}`,
-          }}
-          key={index}
-        />
-      </TouchableOpacity>
-    );
-  };
+  // const renderItem = ({ item, index }) => {
+  //   return (
+  //     <TouchableOpacity>
+  //       <Image
+  //         style={styles.img}
+  //         source={{
+  //           uri: `https://chamba.justcode.am/uploads/${item.post.photo[0].photo}`,
+  //         }}
+  //         key={index}
+  //       />
+  //     </TouchableOpacity>
+  //   );
+  // };
 
   const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
     const paddingToBottom = 20;
@@ -66,7 +66,7 @@ export const SavedPostScreen = ({ navigation }) => {
   };
 
   return (
-    <View style={{ marginTop: 10, alignItems: 'center', paddingHorizontal: 15 }}>
+    <View style={{ marginTop: 10, alignItems: 'center' }}>
       <ScrollView
         contentContainerStyle={{ flexGrow: 1 }}
         showsVerticalScrollIndicator={false}
@@ -79,17 +79,19 @@ export const SavedPostScreen = ({ navigation }) => {
             }
           }
         }}>
-        <Albom seved data={books.data} />
+        <View style={{ width: windowWidth - 32, flexDirection: "column", }}>
+          <Albom seved data={books.data} />
+        </View>
       </ScrollView>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  img: {
-    width: windowWidth / 2 - 17,
-    height: windowWidth / 2 - 17,
-    marginBottom: 4,
-    borderRadius: 15,
-  },
+  // img: {
+  //   width: windowWidth / 2 - 37,
+  //   height: windowWidth / 2 - 37,
+  //   marginBottom: 4,
+  //   borderRadius: 15,
+  // },
 });

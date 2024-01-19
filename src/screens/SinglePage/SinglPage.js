@@ -35,7 +35,7 @@ export const SinglPageScreen = ({ route, navigation }) => {
   const staticdata = useSelector(st => st.static);
   const singlData = useSelector(st => st.getSinglPage);
   const user = useSelector(st => st.userData);
-  const [book, setBook] = useState();
+  const [book, setBook] = useState(route.params?.isBook);
   const [isLiked, setIsLiked] = useState();
   const dispatch = useDispatch();
   const [comment, setComment] = useState(false);
@@ -44,7 +44,6 @@ export const SinglPageScreen = ({ route, navigation }) => {
   const [senderName, setSenderNAme] = useState('')
   const [follow, setFollow] = useState()
   const [activePhoto, setActivePhoto] = useState(0)
-  const [active, setActive] = useState(0);
 
   const [saveType, setSaveType] = useState('Запись сохранена в закладках')
 
@@ -56,7 +55,7 @@ export const SinglPageScreen = ({ route, navigation }) => {
   const getComments = useSelector(st => st.getComments);
   const [showSave, setShowSave] = useState(false)
 
-
+  console.log(book, route.params?.isBook)
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       setShowSave(false);
@@ -100,7 +99,6 @@ export const SinglPageScreen = ({ route, navigation }) => {
     dispatch(AddInBookAction({ post_id: id }, staticdata.token));
     setBook(!book);
   };
-  console.log(showSave)
 
   useEffect(() => {
     dispatch(GelPostCommentsAction({ post_id: id }, staticdata.token));
@@ -114,7 +112,7 @@ export const SinglPageScreen = ({ route, navigation }) => {
       );
       setIsLiked(foundElement);
     }
-    setBook()
+    // setBook()
     setLikeCount(singlData?.data.like_auth_user?.length);
   }, [singlData.data]);
 
@@ -220,7 +218,7 @@ export const SinglPageScreen = ({ route, navigation }) => {
                     {isLiked ? <Heart /> : <NotLineSvg />}
                   </TouchableOpacity>
                   <Text style={[Styles.darkMedium14, { marginLeft: 5 }]}>
-                    {likeCount}
+                    - {likeCount}
                   </Text>
                 </View>
                 <View style={[Styles.flexAlignItems, { marginRight: 15 }]}>
@@ -228,7 +226,7 @@ export const SinglPageScreen = ({ route, navigation }) => {
                     <Comment />
                   </TouchableOpacity>
                   <Text style={[Styles.darkMedium14, { marginLeft: 5 }]}>
-                    {singlData.data.comment_count}
+                    - {singlData.data.comment_count}
                   </Text>
                 </View>
               </View>
@@ -284,9 +282,6 @@ export const SinglPageScreen = ({ route, navigation }) => {
           visible={comment}
           close={() => setComment(false)}
         />
-
-
-
 
         <View style={{ position: 'absolute' }}>
           <BootomModal ref={bottomSheetRef} snapPoints={snapPoints}>

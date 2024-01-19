@@ -18,7 +18,6 @@ export default App = () => {
   useEffect(() => {
     const handleBackButton = () => {
       // Your custom function logic goes here
-      console.log('11');
 
       // Returning true from the event handler prevents default behavior (exiting the app)
       // Returning false allows the default behavior (exiting the app)

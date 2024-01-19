@@ -230,7 +230,7 @@ export const Comments = ({ visible, close, parentId, userImg, userName, descript
               sendCom={() => sendCommentFunction()}
               value={sendComment}
               onChange={e => setSendCommet(e)}
-              width={'82%'}
+              width={'88%'}
               placeholder=" Оставьте комментарий"
             />
           </View>

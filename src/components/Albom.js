@@ -5,7 +5,7 @@ import { Styles } from '../styles/Styles';
 
 const windowWidth = Dimensions.get('window').width;
 
-export const Albom = ({ data, user, loading, seved }) => {
+export const Albom = ({ data, user, loading, seved, post }) => {
   const navigation = useNavigation()
   if (loading) {
     return <View style={Styles.loading}>
@@ -22,15 +22,17 @@ export const Albom = ({ data, user, loading, seved }) => {
             gap: 14,
           },
         ]}>
-        {data?.map((elm, i) => {
+        {data.map((elm, i) => {
           if (seved) {
             return (
-              <TouchableOpacity key={i} onPress={() => navigation.navigate('SinglPageScreen', { id: elm.post?.photo[0]?.post_id })}>
+              <TouchableOpacity key={i} onPress={() => navigation.navigate('SinglPageScreen', {
+                id: elm.post?.photo[0]?.post_id, isBook: true
+              })}>
                 <Image
                   style={[styles.img, {
                     width: windowWidth / 2 - 25,
                     height: windowWidth / 2 - 25,
-                    margin: 5
+                    // margin: 5,
                   }]}
                   source={{
                     uri: `https://chamba.justcode.am/uploads/${elm.post.photo[0].photo}`,
@@ -41,7 +43,7 @@ export const Albom = ({ data, user, loading, seved }) => {
           }
           else {
             return (
-              <TouchableOpacity key={i} onPress={() => navigation.navigate('SinglPageScreen', { id: elm.id })}>
+              <TouchableOpacity key={i} onPress={() => navigation.navigate('SinglPageScreen', { id: elm.id, isBook: elm.auth_user_book?.length > 0 })}>
                 <Image
                   style={styles.img}
                   source={{
