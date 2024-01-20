@@ -2,16 +2,14 @@ import { useCallback, useMemo, useRef, useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import { useDispatch, useSelector } from 'react-redux';
-import { CakeSvg, DownArrow, DownArrow1, EditAvaterSvg, EmailSvg, GenderSvg, LocationSvg, NetWorkSvg, PhoneSvg, ProfetionsSvg, WorkLocation } from '../../assets/svg/Svgs';
+import { CakeSvg, DownArrow, DownArrow1, EmailSvg, GenderSvg, LocationSvg, NetWorkSvg, PhoneSvg, ProfetionsSvg, WorkLocation } from '../../assets/svg/Svgs';
 import { AppColors } from '../../styles/AppColors';
 import { Styles } from '../../styles/Styles';
 import React, { useEffect } from 'react';
 import { HeaderWhiteTitle } from '../../headers/HeaderWhiteTitle.';
 import { UpdateIkInfoAction, chnageAvatarAction, chnageUserProfil } from '../../store/action/action';
 import { ClearChangeAvatar, ClearChangeProfile } from '../../store/action/clearAction';
-import ImagePicker, { ImageOrVideo } from 'react-native-image-crop-picker';
 import { BootomModal } from '../../components/BootomSheet';
-import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { CityModal } from '../../components/CityModal';
 import { MountWrapper } from '../../components/MountWrapper';
 
@@ -59,7 +57,6 @@ export const EditProfilScreen = ({ navigation }) => {
   const snapPoints = useMemo(() => ['16%'], []);
   const changeAvatar = useSelector(st => st.changeAvatar);
   const [imgUrl, setImgUrl] = useState('');
-  const [imgFile, setImgFile] = useState();
   const [cityName, setCityName] = useState('')
   const [day, setDay] = useState()
   const [mount, setMount] = useState()
@@ -77,16 +74,15 @@ export const EditProfilScreen = ({ navigation }) => {
   ])
 
   useEffect(() => {
-    if (day && mount?.id && year) {
-      const newDateFormat = `${year}.${mount?.id}.${day}`;
-      const initialDate = new Date(2021, 10, 22)
+    if (day || mount?.id || year) {
+      const newDateFormat = `${year}.${mount?.id + 1}.${day}`;
+      console.log(`${year}.${mount?.id + 1}.${day}`)
       hadnelChange(1, newDateFormat, 'typ2', newDateFormat)
       setCalendar(false)
     }
   }, [day, mount, year])
 
   const SetData = () => {
-    // const year = user?.allData?.data.date_of_birth.split('-')[0];
     setYera(user?.allData?.data?.date_of_birth?.split('-')[0])
     let d = user?.allData?.data?.date_of_birth?.split('-')[2].slice(0, 2)
     if (d?.length > 0 && d[0] == 0) {
@@ -130,16 +126,6 @@ export const EditProfilScreen = ({ navigation }) => {
     }
     SetData()
   }, [user]);
-  const changeImg = () => {
-    ImagePicker.openPicker({
-      width: 80,
-      height: 80,
-      cropping: true,
-    }).then(image => {
-      setImgUrl(image.path);
-      setImgFile(image);
-    });
-  };
   const dispatch = useDispatch();
   const hadnelChange = (i, value, type, value2) => {
     let item = [...data]
@@ -148,6 +134,7 @@ export const EditProfilScreen = ({ navigation }) => {
       item[0].id = value.id
 
     } else if (i == 1) {
+      console.log(value, ' value')
       item[i].value = value
       item[i].value2 = value2
     }
@@ -171,7 +158,6 @@ export const EditProfilScreen = ({ navigation }) => {
     } else {
       setError('');
     }
-    // if (error === '' && send) {
     dispatch(
       chnageUserProfil(
         {
@@ -182,39 +168,22 @@ export const EditProfilScreen = ({ navigation }) => {
         staticdata.token,
       ),
     );
-    // }
     if (imgUrl) {
       dispatch(chnageAvatarAction(imgUrl, staticdata.token));
     }
     dispatch(UpdateIkInfoAction({
       city_id: data[0].id,
       date_of_birth: data[1].value,
-      // date_of_birth: '2002-02-22',
-
       gender: data[2].value,
       mgu: data[3].value,
       work_type: data[4].value,
       web: data[5].value,
       phone: data[7].value,
     }, staticdata.token))
-    // navigation.navigate('ProfileScreen');
     dispatch(ClearChangeProfile());
     dispatch(ClearChangeAvatar())
   };
 
-  const hadnelChange1 = (e) => {
-    setMount(e)
-  }
-
-  const handleConfirm = (date) => {
-    const dateComponents = JSON.stringify(date).substring(1, 11)?.split('-')
-    const year = dateComponents[0]
-    const day = dateComponents[2]
-    const month = dateComponents[1]
-    const newDateFormat = `${day}-${month}-${year}`;
-    hadnelChange(1, JSON.stringify(date).substring(1, 11), newDateFormat)
-    setCalendar(false)
-  };
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <HeaderWhiteTitle
@@ -234,9 +203,6 @@ export const EditProfilScreen = ({ navigation }) => {
                 : `https://chamba.justcode.am/uploads/${user.data.avatar}`,
             }}
           />
-          {/* <TouchableOpacity onPress={() => changeImg()} style={styles.edit}>
-            <EditAvaterSvg />
-          </TouchableOpacity> */}
         </View>
       </View>
 
@@ -266,7 +232,6 @@ export const EditProfilScreen = ({ navigation }) => {
           }}
           style={[Styles.balihaiMedium14, { height: height }]}
           onChangeText={e => setDiscription(e)}
-        // style={Styles.balihaiMedium14}
         />
       </View>
 
@@ -337,12 +302,6 @@ export const EditProfilScreen = ({ navigation }) => {
         style={[[Styles.tomatoMedium10, { textAlign: 'center', marginTop: 10 }]]}>
         {error || changeProfil.error}
       </Text>
-      {/* <DateTimePickerModal
-        isVisible={calendar}
-        mode="date"
-        onConfirm={handleConfirm}
-        onCancel={() => { }}
-      /> */}
       <View style={{ position: 'absolute' }}>
         <BootomModal ref={bottomSheetRef} snapPoints={snapPoints}>
           <View style={{ paddingHorizontal: 20 }}>
@@ -359,17 +318,13 @@ export const EditProfilScreen = ({ navigation }) => {
             }} style={{ marginBottom: 20 }}>
               <Text style={Styles.darkRegular14}>Женский</Text>
             </TouchableOpacity>
-            {/* <TouchableOpacity onPress={() => {
-              hadnelChange(2, 'Не указывать')
-              bottomSheetRef.current?.close()
-            }} style={{ marginBottom: 20 }}>
-              <Text style={Styles.darkRegular14}>Не указывать</Text>
-            </TouchableOpacity> */}
           </View>
         </BootomModal>
       </View>
       {city && <CityModal onPress={(e) => hadnelChange(0, e, type = 'city')} close={() => setCity(false)} visible={city} />}
-      {openMount && <MountWrapper onPress={(e) => hadnelChange1(e)} close={() => setOpenMout(false)} visible={openMount} />}
+      {openMount && <MountWrapper onPress={(e) =>
+        setMount(e)} close={() => setOpenMout(false)}
+        visible={openMount} />}
     </ScrollView>
   );
 };
