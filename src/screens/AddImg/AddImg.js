@@ -16,7 +16,7 @@ import { CreatPostAction } from '../../store/action/action';
 import { AppColors } from '../../styles/AppColors';
 import { Styles } from '../../styles/Styles';
 // import ImagePicker from 'react-native-image-picker';
-import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import { launchImageLibrary } from 'react-native-image-picker';
 import Video from 'react-native-video';
 import { Button } from '../../ui/Button';
 import { t } from '../../components/lang';
@@ -91,23 +91,13 @@ export const AddImg = ({ navigation }) => {
 
   }
   const addPhoto = () => {
-    // ImagePicker.openPicker({
-    //   width: 300,
-    //   height: 450,
-    //   cropping: false,
-    //   mediaType: 'mixed',
-    //   maxFiles: 2,
-    // }).then(image => {
-    //   console.log(image, 'image')
-    //   let item = [...uri]
-    //   item = item.concat(image);
-    //   setUri(item);
-    // });
+
     const options = {
-      mediaType: 'mixed', // This allows picking both images and videos
+      mediaType: 'mixed',
       quality: 1,
       maxWidth: 500,
       maxHeight: 500,
+      durationLimit: 5,
       storageOptions: {
         skipBackup: true,
       },
@@ -120,11 +110,8 @@ export const AddImg = ({ navigation }) => {
         const source = { uri: response.assets[0].uri };
         if (response.type && response.type.startsWith('video')) {
           item = item.concat(source)
-          // setSelectedMedia({ uri: response.uri, type: response.type });
         } else {
           item = item.concat(source);
-          // For image
-          // setSelectedMedia(source);
         }
         setUri(item);
       }
