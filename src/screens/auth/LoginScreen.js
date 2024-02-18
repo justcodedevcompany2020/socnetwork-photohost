@@ -7,6 +7,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ClearConfirmPasswordAction, ClearLoginAction, LoginAction } from '../../store/action/action';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ChecboxUNchekedSvg, CheckedChexbox } from '../../assets/svg/Svgs';
+import { t } from '../../components/lang';
+
 
 export const LoginScreen = ({ navigation }) => {
   const [login, setLogin] = useState({ error: '', value: '' });
@@ -15,7 +17,8 @@ export const LoginScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const loginData = useSelector(st => st.login);
   const [checked, setChecked] = useState(false)
-  console.log(checked)
+  const mainData = useSelector(st => st.mainData);
+
   useEffect(() => {
     if (login.value && password.value) {
       setSend(false);
@@ -73,9 +76,9 @@ export const LoginScreen = ({ navigation }) => {
   }
   return (
     <View style={[Styles.authScreen, { marginTop: 80 }]}>
-      <Text style={[Styles.darkSemiBold22, { marginBottom: 30 }]}>Вход</Text>
+      <Text style={[Styles.darkSemiBold22, { marginBottom: 30 }]}>{t(mainData.lang).Login}</Text>
       <Input
-        placeholder={'Введите е-майл'}
+        placeholder={t(mainData.lang).Enteryouremail}
         error={login.error}
         value={login.value}
         onChange={e => setLogin({ ...login, value: e })}
@@ -83,7 +86,7 @@ export const LoginScreen = ({ navigation }) => {
         clearText={(e) => setLogin({ ...login, value: '' })}
       />
       <Input
-        placeholder={'Введите пароль'}
+        placeholder={t(mainData.lang).enterpassword}
         error={password.error}
         pass={true}
         value={password.value}
@@ -94,10 +97,10 @@ export const LoginScreen = ({ navigation }) => {
       <View style={[[Styles.flexSpaceBetween, { paddingHorizontal: 10 }]]}>
         <TouchableOpacity
           onPress={() => navigation.navigate('RecoveryPassword')}>
-          <Text style={Styles.darkSemiBold12}>Забыли пароль?</Text>
+          <Text style={Styles.darkSemiBold12}>{t(mainData.lang).Forgotpassword}</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('RegisterScreen')}>
-          <Text style={Styles.darkSemiBold12}>Регистрация</Text>
+          <Text style={Styles.darkSemiBold12}>{t(mainData.lang).Registration}</Text>
         </TouchableOpacity>
       </View>
       <TouchableOpacity onPress={() => setChecked(!checked)} style={{ flexDirection: 'row', alignItems: "center", gap: 10, marginTop: 30 }}>
@@ -105,7 +108,7 @@ export const LoginScreen = ({ navigation }) => {
           <ChecboxUNchekedSvg /> :
           <CheckedChexbox />
         }
-        <Text style={{ color: "black" }}>Сохранить пароль</Text>
+        <Text style={{ color: "black" }}>{t(mainData.lang).Savepassword}</Text>
       </TouchableOpacity>
       <Text style={[[Styles.tomatoMedium10, { marginVertical: 5 }]]}>
         {loginData.error}
@@ -113,7 +116,7 @@ export const LoginScreen = ({ navigation }) => {
       <Button
         disabled={send}
         onPress={() => loginUser()}
-        title={'Войти'}
+        title={t(mainData.lang).Login}
         loading={loginData.loading}
       />
     </View>

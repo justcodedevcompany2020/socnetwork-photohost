@@ -1031,7 +1031,6 @@ export const GetMyBooksAction = (token, page) => {
       .then(response => response.json())
       .then(r => {
         if (r.status) {
-          console.log(r.data)
           dispatch(SuccessGetMyBooks(r));
         } else {
           dispatch(ErrorGetMyBooks('server error'));
@@ -1442,4 +1441,11 @@ export const DeletComment = (data, token, data2) => {
       .catch(error => {
       });
   };
+}
+
+export const ChnageLanguage = (lang) => {
+  return {
+    type: 'ChnageLanguage',
+    lang
+  }
 }

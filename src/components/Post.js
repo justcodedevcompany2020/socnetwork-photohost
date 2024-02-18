@@ -18,6 +18,8 @@ import { Comments } from './Comment';
 import { LikeList } from './LikeList';
 import { Slider } from './Slider';
 import { useNavigation } from '@react-navigation/native';
+import { t } from './lang';
+
 
 
 export const Post = ({
@@ -44,6 +46,8 @@ export const Post = ({
   const staticdata = useSelector(st => st.static);
   const user = useSelector((st) => st.userData)
   const bottomSheetRef = useRef(null);
+  const mainData = useSelector(st => st.mainData);
+
   const likeRef = useRef(null)
   const snapPointsLike = useMemo(() => ['50%'], []);
   const handlePresentModalPress = useCallback(() => { bottomSheetRef.current?.present(); }, []);
@@ -199,7 +203,10 @@ export const Post = ({
                       id: id,
                     });
                   }}>
-                  <Text style={Styles.darkRegular14}>Редактировать</Text>
+                  <Text style={Styles.darkRegular14}>
+                    {t(mainData.lang).Edit}
+
+                  </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={{ marginVertical: 10 }}
@@ -207,7 +214,7 @@ export const Post = ({
                     setOpenModal(false)
                     deletData(id)
                   }}>
-                  <Text style={Styles.darkRegular14}>Удалить пост </Text>
+                  <Text style={Styles.darkRegular14}>{t(mainData.lang).Deletepost} </Text>
                 </TouchableOpacity>
               </View>}
 
@@ -227,7 +234,7 @@ export const Post = ({
                     dispatch(AddDeleteFollowAction({ user_id: userId }, staticdata.token))
                   }}
                   style={{ marginBottom: 20 }} >
-                  <Text style={Styles.darkRegular14}>{!follow ? 'Подписаться' : 'Отписаться'}</Text>
+                  <Text style={Styles.darkRegular14}>{!follow ? t(mainData.lang).subscribe : t(mainData.lang).Unsubscribe}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={{ marginBottom: 20 }} onPress={() => {
                   setOpenModal(false)

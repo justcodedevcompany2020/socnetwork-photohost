@@ -11,8 +11,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { BackArrow } from '../assets/svg/Svgs';
 import { ClearLoginAction, LogoutAction } from '../store/action/action';
 import { Styles } from '../styles/Styles';
+import { t } from './lang';
+
+
 
 export const Menu = ({ visible, close }) => {
+  const mainData = useSelector(st => st.mainData);
   const navigation = useNavigation();
   const dispatch = useDispatch()
   const staticdata = useSelector(st => st.static);
@@ -35,7 +39,7 @@ export const Menu = ({ visible, close }) => {
                 navigation.navigate('EditProfilScreen');
               }}>
               <Text style={[Styles.darkRegular16, { marginTop: 25 }]}>
-                Редактировать профиль
+                {t(mainData.lang).Editprofile}
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -44,7 +48,7 @@ export const Menu = ({ visible, close }) => {
                 navigation.navigate('ParametrScreen');
               }}>
               <Text style={[Styles.darkRegular16, { marginTop: 30 }]}>
-                Параметры аккаунта
+                {t(mainData.lang).Accountsettings}
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -53,7 +57,7 @@ export const Menu = ({ visible, close }) => {
                 navigation.navigate('BlackListScreen');
               }}>
               <Text style={[Styles.darkRegular16, { marginTop: 30 }]}>
-                Черный список
+                {t(mainData.lang).Blacklist}
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -62,7 +66,7 @@ export const Menu = ({ visible, close }) => {
                 navigation.navigate('SavedPostScreen');
               }}>
               <Text style={[Styles.darkRegular16, { marginTop: 30 }]}>
-                Закладки
+                {t(mainData.lang).Bookmarks}
               </Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => {
@@ -71,7 +75,7 @@ export const Menu = ({ visible, close }) => {
               navigation.navigate('LoginScreen')
               close()
             }}>
-              <Text style={[Styles.darkRegular16, { marginTop: 30 }]}>Выйти</Text>
+              <Text style={[Styles.darkRegular16, { marginTop: 30 }]}>{t(mainData.lang).logOut}</Text>
             </TouchableOpacity>
           </View>
         </TouchableOpacity>

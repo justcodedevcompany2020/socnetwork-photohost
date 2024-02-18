@@ -12,6 +12,8 @@ import { ClearChangeAvatar, ClearChangeProfile } from '../../store/action/clearA
 import { BootomModal } from '../../components/BootomSheet';
 import { CityModal } from '../../components/CityModal';
 import { MountWrapper } from '../../components/MountWrapper';
+import { t } from '../../components/lang';
+
 
 export const EditProfilScreen = ({ navigation }) => {
   const [username, setUsername] = useState('');
@@ -20,6 +22,8 @@ export const EditProfilScreen = ({ navigation }) => {
   const [calendar, setCalendar] = useState(false)
   const [city, setCity] = useState(false)
   const [openMount, setOpenMout] = useState(false)
+  const mainData = useSelector(st => st.mainData);
+
   const [height, setHeight] = useState();
   const [data1, setData] = useState([
     { name: 'Январь', id: 0 },
@@ -63,20 +67,19 @@ export const EditProfilScreen = ({ navigation }) => {
   const [year, setYera] = useState()
   const [dym, setDym] = useState()
   const [data, setDate] = useState([
-    { type: 'button', value: '', svg: <LocationSvg />, placeholder: 'Город', disabled: true, id: '' },
-    { type: 'calendar', value: '', svg: <CakeSvg />, placeholder: 'Дата рождения', disabled: true, value2: '' },
-    { type: 'button', value: '', svg: <GenderSvg />, placeholder: 'Пол', disabled: true },
-    { type: 'input', value: '', svg: <ProfetionsSvg />, placeholder: 'Профессия/Сфера деятельности', disabled: true },
-    { type: 'input', value: '', svg: <WorkLocation />, placeholder: 'Место работы', disabled: true },
-    { type: 'input', value: '', svg: <NetWorkSvg />, placeholder: 'Сайт', disabled: true },
-    { type: 'input', value: '', svg: <EmailSvg />, placeholder: 'Почта', disabled: false },
-    { type: 'input', value: '', svg: <PhoneSvg />, placeholder: 'Номер телефона', disabled: true },
+    { type: 'button', value: '', svg: <LocationSvg />, placeholder: t(mainData.lang).City, disabled: true, id: '' },
+    { type: 'calendar', value: '', svg: <CakeSvg />, placeholder: t(mainData).DateofBirth, disabled: true, value2: '' },
+    { type: 'button', value: '', svg: <GenderSvg />, placeholder: t(mainData.lang).gender, disabled: true },
+    { type: 'input', value: '', svg: <ProfetionsSvg />, placeholder: t(mainData.lang).ProfessionFieldofactivity, disabled: true },
+    { type: 'input', value: '', svg: <WorkLocation />, placeholder: t(mainData.lang).Placeofwork, disabled: true },
+    { type: 'input', value: '', svg: <NetWorkSvg />, placeholder: t(mainData.lang).Website, disabled: true },
+    { type: 'input', value: '', svg: <EmailSvg />, placeholder: t(mainData.lang).Mail, disabled: false },
+    { type: 'input', value: '', svg: <PhoneSvg />, placeholder: t(mainData.lang).Phonenumber, disabled: true },
   ])
 
   useEffect(() => {
     if (day || mount?.id || year) {
       const newDateFormat = `${year}.${mount?.id + 1}.${day}`;
-      console.log(`${year}.${mount?.id + 1}.${day}`)
       hadnelChange(1, newDateFormat, 'typ2', newDateFormat)
       setCalendar(false)
     }
@@ -134,7 +137,6 @@ export const EditProfilScreen = ({ navigation }) => {
       item[0].id = value.id
 
     } else if (i == 1) {
-      console.log(value, ' value')
       item[i].value = value
       item[i].value2 = value2
     }
@@ -191,7 +193,9 @@ export const EditProfilScreen = ({ navigation }) => {
         onCheck={() => chnageProfil()}
         check
         onPress={() => navigation.goBack()}
-        title={'Редактировать профиль'}
+        title=
+        {t(mainData.lang).Editprofile}
+
       />
       <View style={{ alignItems: 'center', marginVertical: 40 }}>
         <View style>
@@ -223,7 +227,7 @@ export const EditProfilScreen = ({ navigation }) => {
       </View>
       <View style={styles.textWrapper}>
         <TextInput
-          placeholder="Кратко о себе"
+          placeholder={t(mainData.lang).Brieflyaboutyourself}
           placeholderTextColor={'#8C9CAB'}
           multiline={true}
           value={discription}
@@ -236,7 +240,7 @@ export const EditProfilScreen = ({ navigation }) => {
       </View>
 
       <View>
-        <Text style={[Styles.darkRegular16, { paddingHorizontal: 15, marginTop: 30 }]}>Доп. информация</Text>
+        <Text style={[Styles.darkRegular16, { paddingHorizontal: 15, marginTop: 30 }]}>{t(mainData.lang).Addinformation}</Text>
         {data.map((elm, i) => {
           if (elm.type == 'input') {
             return <View key={i} style={styles.textWrapper2}>
@@ -254,7 +258,7 @@ export const EditProfilScreen = ({ navigation }) => {
           else if (elm.type == 'calendar') {
             return <View style={styles.calnedarView} key={i}>
               <View style={{ width: '28%' }}>
-                <Text style={styles.clandatLable}>День</Text>
+                <Text style={styles.clandatLable}>{t(mainData.lang).Day}</Text>
                 <TextInput
                   value={day}
                   onChangeText={((e) => {
@@ -264,7 +268,7 @@ export const EditProfilScreen = ({ navigation }) => {
                   })} keyboardType='numeric' style={styles.calendarInput} />
               </View>
               <View style={{ width: '28%', height: 45 }}>
-                <Text style={styles.clandatLable}>Месяц</Text>
+                <Text style={styles.clandatLable}>{t(mainData.lang).Month}</Text>
                 <View style={styles.clandarTochable}>
                   <TouchableOpacity onPress={() => setOpenMout(true)} style={styles.calendarInput} >
                     <Text style={styles.calsendarText}>{mount?.name}</Text>
@@ -275,7 +279,7 @@ export const EditProfilScreen = ({ navigation }) => {
                 </View>
               </View>
               <View style={{ width: '28%' }}>
-                <Text style={styles.clandatLable}>Год</Text>
+                <Text style={styles.clandatLable}>{t(mainData.lang).Year}</Text>
                 <TextInput keyboardType='numeric' value={year} onChangeText={(e) => {
                   if (e <= 2024) {
                     setYera(e)
@@ -309,14 +313,14 @@ export const EditProfilScreen = ({ navigation }) => {
               hadnelChange(2, 'Мужской')
               bottomSheetRef.current?.close()
             }} style={{ marginBottom: 20, marginTop: 20 }} >
-              <Text style={Styles.darkRegular14}>Мужской</Text>
+              <Text style={Styles.darkRegular14}>{t(mainData.lang).Male}</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => {
               hadnelChange(2, 'Женский')
               bottomSheetRef.current?.close()
 
             }} style={{ marginBottom: 20 }}>
-              <Text style={Styles.darkRegular14}>Женский</Text>
+              <Text style={Styles.darkRegular14}>{t(mainData.lang).Female}</Text>
             </TouchableOpacity>
           </View>
         </BootomModal>

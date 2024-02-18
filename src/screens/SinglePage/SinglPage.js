@@ -30,12 +30,15 @@ import { CommentBlock } from '../../components/CommentBlock';
 import { Comments } from '../../components/Comment';
 import { Input } from '../../ui/Input';
 import { Shadow } from 'react-native-shadow-2';
+import { t } from '../../components/lang';
+
 
 export const SinglPageScreen = ({ route, navigation }) => {
   const staticdata = useSelector(st => st.static);
   const singlData = useSelector(st => st.getSinglPage);
   const user = useSelector(st => st.userData);
   const [book, setBook] = useState(route.params?.isBook);
+  const mainData = useSelector(st => st.mainData);
   const [isLiked, setIsLiked] = useState();
   const dispatch = useDispatch();
   const [comment, setComment] = useState(false);
@@ -55,7 +58,6 @@ export const SinglPageScreen = ({ route, navigation }) => {
   const getComments = useSelector(st => st.getComments);
   const [showSave, setShowSave] = useState(false)
 
-  console.log(book, route.params?.isBook)
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       setShowSave(false);
@@ -162,6 +164,7 @@ export const SinglPageScreen = ({ route, navigation }) => {
     setSendCommet('');
   };
 
+
   return (
     <SafeAreaView>
       {showSave &&
@@ -204,9 +207,6 @@ export const SinglPageScreen = ({ route, navigation }) => {
         </Text>}
         <View>
           <Slider activePhoto={(e) => setActivePhoto(e)} single photo={singlData.data.photo} />
-          {/* <Text style={[Styles.darkSemiBold12, { color: 'white', fontSize: 15, position: 'absolute', padding: 10, backgroundColor: 'rgba(0,0,0,0.5)', width: '100%', top: 0 }]}>
-            {singlData.data.description}
-          </Text> */}
           <View style={{ paddingHorizontal: 20 }}>
             <View style={Styles.flexSpaceBetween}>
               <View style={Styles.flexAlignItems}>
@@ -305,7 +305,7 @@ export const SinglPageScreen = ({ route, navigation }) => {
                     bottomSheetRef.current?.close();
                   }}>
 
-                  <Text style={Styles.darkRegular14}>{!follow ? 'Подписаться' : 'Отписаться'}</Text>
+                  <Text style={Styles.darkRegular14}>{!follow ? t(mainData.lang).subscribe : t(mainData.lang).Unsubscribe}</Text>
                 </TouchableOpacity>
               )}
               {user?.data?.id != singlData?.data?.user?.id && (
@@ -325,7 +325,10 @@ export const SinglPageScreen = ({ route, navigation }) => {
                       id: singlData.data.id,
                     });
                   }}>
-                  <Text style={Styles.darkRegular14}>Редактировать</Text>
+                  <Text style={Styles.darkRegular14}>
+                    {t(mainData.lang).Editprofile}
+
+                  </Text>
                 </TouchableOpacity>
               )}
               {user?.data?.id == singlData?.data?.user?.id && (

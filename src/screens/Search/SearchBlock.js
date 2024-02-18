@@ -9,7 +9,7 @@ import { clearSearchData } from '../../store/action/clearAction';
 import { AppColors } from '../../styles/AppColors';
 import { useNavigation } from '@react-navigation/native';
 import { Styles } from '../../styles/Styles';
-
+import { t } from '../../components/lang';
 
 export const SearchBlock = () => {
   const [data, setData] = useState('');
@@ -19,6 +19,7 @@ export const SearchBlock = () => {
   const staticdata = useSelector(st => st.static);
   const navigation = useNavigation();
   const [serchData, setSearchData] = useState([])
+  const mainData = useSelector(st => st.mainData);
 
   useEffect(() => {
     setSearchData(search.data)
@@ -94,7 +95,8 @@ export const SearchBlock = () => {
             value={data}
             autoFocus
             style={styles.Input}
-            placeholder="Поиск"
+            placeholder={t(mainData.lang).search}
+
           />
           <View style={styles.eye}>
             <SearchInputSvg />
@@ -121,7 +123,7 @@ export const SearchBlock = () => {
         enableEmptySections={true}
         ListEmptyComponent={() => {
           if (data) {
-            return <Text style={[Styles.darkMedium14, { textAlign: 'center' }]}>не найдено</Text>;
+            return <Text style={[Styles.darkMedium14, { textAlign: 'center' }]}>{t(mainData.lang).Notfound}</Text>;
           }
         }}
         renderItem={renderItem}

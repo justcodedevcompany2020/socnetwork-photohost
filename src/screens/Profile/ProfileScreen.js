@@ -21,6 +21,7 @@ import { InfoBlock } from './InfoBlock';
 import { Shadow } from 'react-native-shadow-2';
 import ImagePicker from 'react-native-image-crop-picker';
 import { SliderModal } from '../../components/SliderModal';
+import { t } from '../../components/lang';
 
 const { width } = Dimensions.get('window');
 
@@ -29,7 +30,7 @@ export const ProfileScreen = ({ navigation, profile }) => {
   const [openSlider, setOpenSlider] = useState(false)
   const [active, setActive] = useState(0);
 
-
+  const mainData = useSelector(st => st.mainData);
 
   const changeImg = () => {
     ImagePicker.openPicker({
@@ -173,7 +174,7 @@ export const ProfileScreen = ({ navigation, profile }) => {
                   <View style={{ width: 25, height: 25 }}>
                     <Image style={{ width: 25, height: 20, marginLeft: -2 }} source={require('../../assets/img/edit.png')} />
                   </View>
-                  <Text style={{ color: "black", fontSize: 14, fontWeight: '500', }} onPress={() => changeImg()}>Изменить фото</Text>
+                  <Text style={{ color: "black", fontSize: 14, fontWeight: '500', }} onPress={() => changeImg()}>{t(mainData.lang).Changemail}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={{ flexDirection: 'row', gap: 10, width: 150 }} onPress={() => DelatePhoto()}>
                   <View style={{ width: 25, height: 25 }}>
@@ -203,19 +204,19 @@ export const ProfileScreen = ({ navigation, profile }) => {
             ]}>
             <View style={{ alignItems: 'center' }}>
               <Text style={Styles.darkSemiBold16}>{user.postCount}</Text>
-              <Text style={Styles.balihaiRegular12}>Публикаций</Text>
+              <Text style={Styles.balihaiRegular12}>{t(mainData.lang).Publications}</Text>
             </View>
             <TouchableOpacity
               onPress={() => navigation.navigate('FollowersScreen', { index: 0 })}
               style={{ alignItems: 'center' }}>
               <Text style={Styles.darkSemiBold16}>{user.followersCount}</Text>
-              <Text style={Styles.balihaiRegular12}>Подписчиков</Text>
+              <Text style={Styles.balihaiRegular12}>{t(mainData.lang).Subscribers}</Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => navigation.navigate('FollowersScreen', { index: 1 })}
               style={{ alignItems: 'center' }}>
               <Text style={Styles.darkSemiBold16}>{user.followerCount}</Text>
-              <Text style={Styles.balihaiRegular12}>Подписок</Text>
+              <Text style={Styles.balihaiRegular12}>{t(mainData.lang).Subscriptions}</Text>
             </TouchableOpacity>
           </View>
           {
@@ -225,7 +226,7 @@ export const ProfileScreen = ({ navigation, profile }) => {
                   Styles.flexSpaceBetween,
                   { paddingHorizontal: 15, marginVertical: 10 },
                 ]}>
-                <Button paddingV={10} title={'Подписаться'} width="48%" />
+                <Button paddingV={10} title={t(mainData.lang).subscribe} width="48%" />
                 <Button bg paddingV={10} title={'Сообщение'} width="48%" />
               </View>
             )
@@ -235,12 +236,12 @@ export const ProfileScreen = ({ navigation, profile }) => {
               Styles.balihaiMedium14,
               styles.textWrapper,
               activeCard == 0 && { borderColor: '#000', color: '#000' }
-            ]}>Альбом</Text>
+            ]}>{t(mainData.lang).Album}</Text>
             <Text onPress={() => handelChange()} style={[Styles.balihaiMedium14,
             styles.textWrapper,
             activeCard == 1 && { borderColor: '#000', color: '#000' }
 
-            ]}>Информация</Text>
+            ]}>{t(mainData.lang).Information}</Text>
           </View>
           <SwiperFlatList
             index={0}

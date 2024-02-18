@@ -59,10 +59,12 @@ export const Input = forwardRef(
           onBlur={onBlur}
           style={[
             styles.Input,
-            { paddingRight: msg ? 80 : 30 },
+            // { paddingRight: msg ? 80 : 30 },
             { paddingRight: send ? 50 : 30 },
             { paddingRight: pdR },
             { paddingRight: pass ? 70 : 30 },
+            msg && { paddingRight: 80 },
+
           ]}
           placeholder={placeholder}
           placeholderTextColor={AppColors.BaliHai_Color}
@@ -86,7 +88,6 @@ export const Input = forwardRef(
         )}
         {msg && (
           <View style={[Styles.flexAlignItems, styles.eye, { height: '100%' }]}>
-
             {data.length > 0 &&
               <TouchableOpacity onPress={sendMsg} style={{ marginLeft: 10 }}>
                 <SendMsgSvg />

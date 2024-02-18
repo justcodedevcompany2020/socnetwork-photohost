@@ -12,6 +12,8 @@ import {
 import { AppColors } from '../styles/AppColors';
 import { SliderModal } from './SliderModal';
 import { Styles } from '../styles/Styles';
+import Video from 'react-native-video';
+
 
 const windowWidth = Dimensions.get('window').width;
 export const Slider = ({ photo, single, activePhoto, description }) => {
@@ -59,23 +61,27 @@ export const Slider = ({ photo, single, activePhoto, description }) => {
               aspectRatio = 0.70
             }
           }
+          console.log(item.photo)
           return (
             <TouchableOpacity
               onPress={() => setOpenSlider(true)}
               style={!single ? styles.img : { ...styles.img, width: windowWidth }}>
 
-              <Image
+              {!item.photo.includes('.mp4') ? <Image
                 style={[
                   { width: '100%', aspectRatio: aspectRatio ? aspectRatio : 1 },
                 ]}
                 source={{ uri: `https://chamba.justcode.am/uploads/${item.photo}` }}
                 resizeMode={'cover'}
-              />
-              {/* {description && <View style={{ paddingHorizontal: 15, position: 'absolute', top: 0, width: '100%', padding: 10, backgroundColor: "rgba(0,0,0,0.5)" }}>
-                <Text style={[Styles.darkSemiBold12, { color: 'white' }]}>
-                  {description}
-                </Text>
-              </View>} */}
+              /> :
+                <Video
+                  style={[
+                    { width: '100%', aspectRatio: aspectRatio ? aspectRatio : 1 },
+                  ]}
+                  source={{ uri: `https://chamba.justcode.am/uploads/${item.photo}` }}
+                  resizeMode={'cover'}
+                />
+              }
             </TouchableOpacity>
           );
         }}

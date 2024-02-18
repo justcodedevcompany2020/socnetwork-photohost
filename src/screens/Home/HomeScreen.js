@@ -69,7 +69,9 @@ export const HomeScreen = ({ navigation }) => {
       }
     }
 
+
     if (!blackList.includes(item.user.id)) {
+      console.log(item)
       return (
         <View
           key={index}

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AddDeleteFollowAction, DeleteOtherPeople } from '../store/action/action';
 import { AppColors } from '../styles/AppColors';
 import { Styles } from '../styles/Styles';
+import { t } from '../components/lang';
 export const FollowingsBlock = ({
   name,
   username,
@@ -16,6 +17,7 @@ export const FollowingsBlock = ({
   type2,
 }) => {
   const staticdata = useSelector(st => st.static);
+  const mainData = useSelector(st => st.mainData);
   const dispatch = useDispatch();
   const addFollow = () => {
     dispatch(AddDeleteFollowAction({ user_id: userId }, staticdata.token));
@@ -68,7 +70,7 @@ export const FollowingsBlock = ({
                     addFollow();
                   }}
                   style={styles.button}>
-                  <Text style={Styles.darkSemiBold10}>Отписаться</Text>
+                  <Text style={Styles.darkSemiBold10}>{t(mainData.lang).Unsubscribe}</Text>
                 </TouchableOpacity>
               ) : (
                 <TouchableOpacity
@@ -84,7 +86,7 @@ export const FollowingsBlock = ({
                       Styles.darkSemiBold10,
                       { color: AppColors.White_Color },
                     ]}>
-                    подписаться
+                    {t(mainData.lang).subscribe}
                   </Text>
                 </TouchableOpacity>
               )}
