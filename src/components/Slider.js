@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   View,
   StyleSheet,
@@ -14,11 +14,20 @@ import { SliderModal } from './SliderModal';
 import { Styles } from '../styles/Styles';
 import Video from 'react-native-video';
 
+import { VideoPlayer } from 'react-native-video-player'
+import { PauseSvg, StartSvg, StartSvg2 } from '../assets/svg/Svgs';
 
 const windowWidth = Dimensions.get('window').width;
 export const Slider = ({ photo, single, activePhoto, description }) => {
   const [active, setActive] = useState(0);
   const [openSlider, setOpenSlider] = useState(false)
+  const videoRef = useRef(null);
+
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  const togglePlayPause = () => {
+    setIsPlaying(!isPlaying)
+  };
 
   return (
     <View>
@@ -61,7 +70,8 @@ export const Slider = ({ photo, single, activePhoto, description }) => {
               aspectRatio = 0.70
             }
           }
-          console.log(item.photo)
+
+
           return (
             <TouchableOpacity
               onPress={() => setOpenSlider(true)}
@@ -74,13 +84,50 @@ export const Slider = ({ photo, single, activePhoto, description }) => {
                 source={{ uri: `https://chamba.justcode.am/uploads/${item.photo}` }}
                 resizeMode={'cover'}
               /> :
-                <Video
-                  style={[
-                    { width: '100%', aspectRatio: aspectRatio ? aspectRatio : 1 },
-                  ]}
-                  source={{ uri: `https://chamba.justcode.am/uploads/${item.photo}` }}
-                  resizeMode={'cover'}
-                />
+                <View style={{ position: "relative" }}>
+                  <View
+                    style={{
+                      position: 'absolute',
+                      width: '100%',
+                      height: '100%',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      zIndex: 99999,
+                      margin: 'auto',
+                      left: 0,
+                      right: 0,
+                    }}>
+                    <TouchableOpacity
+                      onPress={(e) => {
+                        e.stopPropagation()
+                        e.preventDefault()
+                        togglePlayPause()
+                      }}
+
+                      style={{ width: 40, height: 40 }}>
+                      {!isPlaying ?
+
+                        <PauseSvg /> :
+                        <StartSvg2 />
+                      }
+                    </TouchableOpacity>
+                  </View>
+                  <Video
+                    // controls={true}
+                    paused={isPlaying}
+                    repeat={true}
+                    ref={videoRef}
+                    style={[
+                      {
+                        width: '100%', aspectRatio: aspectRatio ? aspectRatio : 1,
+                        position: 'relative'
+                      },
+                    ]}
+                    source={{ uri: `https://chamba.justcode.am/uploads/${item.photo}` }}
+                    resizeMode={'cover'}
+                  />
+                </View>
+
               }
             </TouchableOpacity>
           );

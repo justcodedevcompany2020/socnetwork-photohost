@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Styles } from '../../styles/Styles';
 import { Button } from '../../ui/Button';
 import { Input } from '../../ui/Input';
 import { useDispatch, useSelector } from 'react-redux';
-import { ClearConfirmPasswordAction, ClearLoginAction, LoginAction } from '../../store/action/action';
+import { ChnageLanguage, ClearConfirmPasswordAction, ClearLoginAction, LoginAction } from '../../store/action/action';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ChecboxUNchekedSvg, CheckedChexbox } from '../../assets/svg/Svgs';
 import { t } from '../../components/lang';
+import { AppColors } from '../../styles/AppColors';
 
 
 export const LoginScreen = ({ navigation }) => {
@@ -74,6 +75,11 @@ export const LoginScreen = ({ navigation }) => {
       await AsyncStorage.removeItem('password')
     }
   }
+
+  const changeLanguage = async (type) => {
+    await AsyncStorage.setItem('lang', type)
+    dispatch(ChnageLanguage(type))
+  }
   return (
     <View style={[Styles.authScreen, { marginTop: 80 }]}>
       <Text style={[Styles.darkSemiBold22, { marginBottom: 30 }]}>{t(mainData.lang).Login}</Text>
@@ -119,6 +125,28 @@ export const LoginScreen = ({ navigation }) => {
         title={t(mainData.lang).Login}
         loading={loginData.loading}
       />
+      <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'center', alignItems: "center", gap: 20 }}>
+
+        <TouchableOpacity onPress={() => changeLanguage('ru')} style={styles.languageButton}>
+          <Text>ru</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => changeLanguage('en')} style={styles.languageButton}>
+          <Text>en</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  languageButton: {
+    borderWidth: 1,
+    paddingHorizontal: 20,
+    borderRadius: 15,
+    paddingVertical: 5,
+    justifyContent: 'center',
+    alignContent: 'center',
+    borderColor: AppColors.Solitude_Color,
+    marginTop: 20,
+  }
+})

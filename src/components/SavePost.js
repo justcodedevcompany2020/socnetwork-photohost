@@ -3,7 +3,6 @@ import { Shadow } from "react-native-shadow-2"
 import { Image } from "react-native-svg"
 
 export const SavePost = ({ setOpen }) => {
-    console.log('s')
     return (
         <Shadow
             style={{ width: '100%', borderRadius: 20, backgroundColor: '#fff', position: 'relative' }}

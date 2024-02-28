@@ -1,7 +1,7 @@
 import Navigation from './src/navigation/Navigation';
 import 'react-native-gesture-handler';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { Provider } from 'react-redux';
+import { Provider, useDispatch } from 'react-redux';
 import { store } from './src/store/configStore';
 import { useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -9,6 +9,7 @@ import messaging from '@react-native-firebase/messaging';
 import firebase from '@react-native-firebase/app';
 import { NotificationLister, requestUserPermission } from './src/utils/pushnotification_helper';
 import { BackHandler, StatusBar } from 'react-native';
+import { ChnageLanguage } from './src/store/action/action';
 export default App = () => {
 
 
@@ -43,12 +44,12 @@ export default App = () => {
   if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
   }
+
   useEffect(() => {
     requestUserPermission()
     NotificationLister()
     if (firebase.app()) {
       const unsubscribe = messaging().onMessage(async remoteMessage => {
-        console.log('Received a notification in the foreground:', remoteMessage);
       });
 
       return () => {
@@ -56,6 +57,7 @@ export default App = () => {
       };
     }
   }, []);
+
 
 
 

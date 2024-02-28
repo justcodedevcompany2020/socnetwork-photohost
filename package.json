@@ -51,6 +51,7 @@
     "react-native-swiper-flatlist": "^3.2.3",
     "react-native-tab-view": "^3.5.2",
     "react-native-video": "^5.2.1",
+    "react-native-video-player": "^0.14.0",
     "react-redux": "^8.1.1",
     "redux": "^4.2.1",
     "redux-thunk": "^2.4.2"

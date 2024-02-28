@@ -1,8 +1,6 @@
 import { Modal, StyleSheet, View, TouchableOpacity, BackHandler } from 'react-native';
 import { ModalSliderImg } from './ModalSliderImg';
 export const SliderModal = ({ modalVisible, photo, activePhoto, close }) => {
-
-
     return <View >
         <Modal
             animationType="slide"

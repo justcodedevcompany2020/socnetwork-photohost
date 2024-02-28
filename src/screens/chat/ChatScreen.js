@@ -32,7 +32,6 @@ import { Styles } from '../../styles/Styles';
 import { Input } from '../../ui/Input';
 import { ClearChat, ClearDeletChat, ClearDeleteChat } from '../../store/action/clearAction';
 import Sound from 'react-native-sound';
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 
 export const ChatScreen = ({ navigation, route }) => {
@@ -59,7 +58,6 @@ export const ChatScreen = ({ navigation, route }) => {
 
   const music = new Sound('send.mp3', Sound.MAIN_BUNDLE, (error) => {
     if (error) {
-      console.log('Error loading music:', error);
     }
   });
 
@@ -245,7 +243,6 @@ export const ChatScreen = ({ navigation, route }) => {
           <MenuSvg />
         </TouchableOpacity>
       </View>
-      {/* <TouchableWithoutFeedback style={{ height: '84%' }} opacity={1} onPress={() => setOpenEmoji(false)}> */}
       <FlatList
         snapToEnd
         inverted={true}

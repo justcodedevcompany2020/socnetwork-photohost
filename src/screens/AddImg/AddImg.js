@@ -29,6 +29,8 @@ export const AddImg = ({ navigation }) => {
   const staticData = useSelector(st => st.static);
   const videoRef = useRef(null);
 
+  const [error, setError] = useState('')
+
   const dispatch = useDispatch();
 
   const onEnd = () => {
@@ -53,6 +55,7 @@ export const AddImg = ({ navigation }) => {
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', async () => {
+      setError('')
       Camera()
     });
     return unsubscribe;
@@ -87,11 +90,8 @@ export const AddImg = ({ navigation }) => {
     dispatch(CreatPostAction(form, staticData.token));
   };
 
-  const options = {
-
-  }
   const addPhoto = () => {
-
+    setError('')
     const options = {
       mediaType: 'mixed',
       quality: 1,
@@ -107,18 +107,22 @@ export const AddImg = ({ navigation }) => {
       if (response.didCancel) {
       } else if (response.error) {
       } else {
-        const source = { uri: response.assets[0].uri };
-        if (response.type && response.type.startsWith('video')) {
-          item = item.concat(source)
-        } else {
-          item = item.concat(source);
+        const selectedVideo = response.assets[0];
+        if (selectedVideo.duration <= 20) {
+          const source = { uri: response.assets[0].uri };
+          if (response.type && response.type.startsWith('video')) {
+            item = item.concat(source)
+          } else {
+            item = item.concat(source);
+          }
+          setUri(item);
         }
-        setUri(item);
+        else {
+          setError('видео должен быть меньше чем 20 с')
+        }
       }
     });
   }
-
-
 
   const delateFoto = index => {
     let item = [...uri];
@@ -150,7 +154,7 @@ export const AddImg = ({ navigation }) => {
                   }}
                 /> :
                 <Video
-                  source={{ uri: elm.uri }} // Replace with your video URL
+                  source={{ uri: elm.uri }}
                   style={styles.img}
                   controls={true}
                   resizeMode="cover"
@@ -177,10 +181,11 @@ export const AddImg = ({ navigation }) => {
           placeholderTextColor={'#8C9CAB'}
         />
       </View>
-
-      <View style={{ margin: 20 }}>
+      <View>
+        <Text style={{ padding: 10, color: 'red' }}>{error}</Text>
+      </View>
+      <View style={{ margin: 10 }}>
         {uri.length < 6 &&
-
           <Button onPress={() => addPhoto()} title={t(mainData.lang).Addphoto} width={120} />
         }
       </View>

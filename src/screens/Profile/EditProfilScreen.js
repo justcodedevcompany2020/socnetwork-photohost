@@ -7,12 +7,13 @@ import { AppColors } from '../../styles/AppColors';
 import { Styles } from '../../styles/Styles';
 import React, { useEffect } from 'react';
 import { HeaderWhiteTitle } from '../../headers/HeaderWhiteTitle.';
-import { UpdateIkInfoAction, chnageAvatarAction, chnageUserProfil } from '../../store/action/action';
+import { ChnageLanguage, UpdateIkInfoAction, chnageAvatarAction, chnageUserProfil } from '../../store/action/action';
 import { ClearChangeAvatar, ClearChangeProfile } from '../../store/action/clearAction';
 import { BootomModal } from '../../components/BootomSheet';
 import { CityModal } from '../../components/CityModal';
 import { MountWrapper } from '../../components/MountWrapper';
 import { t } from '../../components/lang';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 export const EditProfilScreen = ({ navigation }) => {
@@ -121,6 +122,11 @@ export const EditProfilScreen = ({ navigation }) => {
     setDate(item)
   }
 
+  const changeLanguage = async (type) => {
+    await AsyncStorage.setItem('lang', type)
+    dispatch(ChnageLanguage(type))
+  }
+
   useEffect(() => {
     if (!name) {
       setUsername(user.username);
@@ -197,6 +203,7 @@ export const EditProfilScreen = ({ navigation }) => {
         {t(mainData.lang).Editprofile}
 
       />
+
       <View style={{ alignItems: 'center', marginVertical: 40 }}>
         <View style>
           <Image
@@ -210,7 +217,15 @@ export const EditProfilScreen = ({ navigation }) => {
         </View>
       </View>
 
+      <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'center', alignItems: "center", gap: 20 }}>
 
+        <TouchableOpacity onPress={() => changeLanguage('ru')} style={styles.languageButton}>
+          <Text>ru</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => changeLanguage('en')} style={styles.languageButton}>
+          <Text>en</Text>
+        </TouchableOpacity>
+      </View>
       <View style={styles.textWrapper}>
         <TextInput
           value={username}
@@ -400,6 +415,15 @@ const styles = StyleSheet.create({
     height: '100%',
     top: 10,
     left: 10,
+  },
+  languageButton: {
+    borderWidth: 1,
+    paddingHorizontal: 20,
+    borderRadius: 15,
+    paddingVertical: 5,
+    justifyContent: 'center',
+    alignContent: 'center',
+    borderColor: AppColors.Solitude_Color,
   }
 });
 

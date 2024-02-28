@@ -4,6 +4,7 @@ import { View, Dimensions, Image, StyleSheet, Text, ActivityIndicator, Touchable
 import { Styles } from '../styles/Styles';
 import { t } from './lang';
 import { useSelector } from "react-redux";
+import Video from 'react-native-video';
 const windowWidth = Dimensions.get('window').width;
 
 export const Albom = ({ data, user, loading, seved, post }) => {
@@ -25,35 +26,55 @@ export const Albom = ({ data, user, loading, seved, post }) => {
           },
         ]}>
         {data.map((elm, i) => {
-          console.log(elm, 'elm')
           if (seved) {
             return (
               <TouchableOpacity key={i} onPress={() => navigation.navigate('SinglPageScreen', {
                 id: elm.post?.photo[0]?.post_id, isBook: true
               })}>
-                <Image
-                  style={[styles.img, {
-                    width: windowWidth / 2 - 25,
-                    height: windowWidth / 2 - 25,
-                    // margin: 5,
-                  }]}
-                  source={{
-                    uri: `https://chamba.justcode.am/uploads/${elm.post?.photo[0]?.photo}`,
-                  }}
-                />
+                {!elm.post?.photo[0]?.includes('.mov') ?
+
+                  <Image
+                    style={[styles.img, {
+                      width: windowWidth / 2 - 25,
+                      height: windowWidth / 2 - 25,
+                      // margin: 5,
+                    }]}
+                    source={{
+                      uri: `https://chamba.justcode.am/uploads/${elm.post?.photo[0]?.photo}`,
+                    }}
+                  /> :
+                  <Video
+                    // controls={true}
+                    // repeat={true}
+                    style={styles.img}
+                    source={{ uri: `https://chamba.justcode.am/uploads/${elm.post?.photo[0]?.photo}` }}
+                    resizeMode={'cover'}
+                  />
+                }
               </TouchableOpacity>
             );
           }
           else {
             return (
-              <TouchableOpacity key={i} onPress={() => navigation.navigate('SinglPageScreen', { id: elm.id, isBook: elm.auth_user_book?.length > 0 })}>
-                <Image
-                  style={styles.img}
-                  source={{
-                    uri: `https://chamba.justcode.am/uploads/${elm?.photo[0]?.photo}`,
-                  }}
-                />
-              </TouchableOpacity>
+              !elm.photo[0]?.photo?.includes('.mp4') ?
+
+                <TouchableOpacity key={i} onPress={() => navigation.navigate('SinglPageScreen', { id: elm.id, isBook: elm.auth_user_book?.length > 0 })}>
+                  <Image
+                    style={styles.img}
+                    source={{
+                      uri: `https://chamba.justcode.am/uploads/${elm?.photo[0]?.photo}`,
+                    }}
+                  />
+                </TouchableOpacity> :
+                <TouchableOpacity key={i} onPress={() => navigation.navigate('SinglPageScreen', { id: elm.id, isBook: elm.auth_user_book?.length > 0 })}>
+                  <Video
+                    // controls={true}
+                    // repeat={true}
+                    style={styles.img}
+                    source={{ uri: `https://chamba.justcode.am/uploads/${elm.photo[0]?.photo}` }}
+                    resizeMode={'cover'}
+                  />
+                </TouchableOpacity>
             );
           }
         })}

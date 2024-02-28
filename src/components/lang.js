@@ -2,7 +2,7 @@ export const t = (lang) => {
     if (lang == 'ru') {
         return {
             Editprofile: "Редактировать профиль",
-            Edit: "Edit",
+            Edit: "Редактировать",
             Deletepost: "Удалить пост",
             search: "поиск",
             Notfound: "Не найдено",
@@ -11,7 +11,7 @@ export const t = (lang) => {
             Youhavenomessages: "У вас нет сообщений",
             Newpublication: "Новая публикация",
             adddescription: "Добавить описание",
-            Addphoto: "Добавить фото",
+            Addphoto: "Добавить",
             noPublications: "нет публикаций",
             Bookmarklistisempty: 'Список закладок пуст',
             Album: 'Альбом',
@@ -62,7 +62,10 @@ export const t = (lang) => {
             Next: 'далее',
             Comeupwithanicknam: 'Придумайте никнейм',
             Enteryouremail: 'Укажите почту',
-            FirstnameLastnameorchannelname: 'Имя Фамилия или название канала'
+            FirstnameLastnameorchannelname: 'Имя Фамилия или название канала',
+            comments: 'комментарии',
+            Nocomments: ' Нет комментариев',
+            Leaveacomment: 'Оставьте комментарий'
         }
     }
     else {
@@ -77,7 +80,7 @@ export const t = (lang) => {
             Youhavenomessages: "You have no messages",
             Newpublication: "New publication",
             adddescription: "add description",
-            Addphoto: "Add photo",
+            Addphoto: "Add",
             noPublications: "no publications",
             Bookmarklistisempty: 'Bookmark list is empty',
             Album: 'Album',
@@ -128,7 +131,10 @@ export const t = (lang) => {
             Next: 'Next',
             Comeupwithanicknam: 'Come up with a nickname',
             Enteryouremail: 'Enter your email',
-            FirstnameLastnameorchannelname: 'First name Last name or channel name'
+            FirstnameLastnameorchannelname: 'First name Last name or channel name',
+            comments: 'comments',
+            Nocomments: 'No comments',
+            Leaveacomment: 'Leave a comment'
         }
     }
 }

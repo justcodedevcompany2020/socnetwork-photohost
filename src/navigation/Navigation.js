@@ -16,6 +16,7 @@ import Sound from 'react-native-sound';
 import {
   AddBlackListPusherAction,
   AddMsgAction,
+  ChnageLanguage,
   DeleteChatPusherAction,
   DeviceIdAction,
   getUserInfoAction,
@@ -44,9 +45,13 @@ export default Navigation = ({ token, initialRouteName, id }) => {
 
   const music = new Sound('ding.mp3', Sound.MAIN_BUNDLE, (error) => {
     if (error) {
-      console.log('Error loading music:', error);
     }
   });
+
+  const changeLanguage = async () => {
+    let lang = await AsyncStorage.getItem('lang')
+    dispatch(ChnageLanguage(lang))
+  }
 
 
   function getData() {
@@ -128,6 +133,7 @@ export default Navigation = ({ token, initialRouteName, id }) => {
     });
   };
   useEffect(() => {
+    changeLanguage()
     Pushers();
     getData();
   }, [token]);
