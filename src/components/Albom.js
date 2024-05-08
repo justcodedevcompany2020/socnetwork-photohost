@@ -5,11 +5,13 @@ import { Styles } from '../styles/Styles';
 import { t } from './lang';
 import { useSelector } from "react-redux";
 import Video from 'react-native-video';
+import { useState } from "react";
 const windowWidth = Dimensions.get('window').width;
 
 export const Albom = ({ data, user, loading, seved, post }) => {
   const navigation = useNavigation()
   const mainData = useSelector(st => st.mainData);
+  const [isloading, setLoading] = useState(true)
   if (loading) {
     return <View style={Styles.loading}>
       <ActivityIndicator size="large" color="#FFC24B" />
@@ -43,13 +45,20 @@ export const Albom = ({ data, user, loading, seved, post }) => {
                       uri: `https://chamba.justcode.am/uploads/${elm.post?.photo[0]?.photo}`,
                     }}
                   /> :
-                  <Video
-                    // controls={true}
-                    // repeat={true}
-                    style={styles.img}
-                    source={{ uri: `https://chamba.justcode.am/uploads/${elm.post?.photo[0]?.photo}` }}
-                    resizeMode={'cover'}
-                  />
+                  <View>
+                    {
+                      isloading && <ActivityIndicator size="large" color="#FFC24B" />
+                    }
+                    <Video
+                      paused={true}
+                      onLoad={(data) => {
+                        setLoading(false);
+                      }}
+                      style={styles.img}
+                      source={{ uri: `https://chamba.justcode.am/uploads/${elm.post?.photo[0]?.photo}` }}
+                      resizeMode={'cover'}
+                    />
+                  </View>
                 }
               </TouchableOpacity>
             );
@@ -67,13 +76,24 @@ export const Albom = ({ data, user, loading, seved, post }) => {
                   />
                 </TouchableOpacity> :
                 <TouchableOpacity key={i} onPress={() => navigation.navigate('SinglPageScreen', { id: elm.id, isBook: elm.auth_user_book?.length > 0 })}>
-                  <Video
+                  {
+                    <Image
+                      style={[styles.img]}
+                      // style={[{ width: '100%', aspectRatio: aspectRatio ? aspectRatio : 1, position: 'absolute' }]}
+                      resizeMode="cover"
+                      source={require('../assets/img/default-video-image.webp')} />
+                  }
+                  {/* <Video
                     // controls={true}
                     // repeat={true}
+                    paused={true}
+                    onLoad={(data) => {
+                      setLoading(false);
+                    }}
                     style={styles.img}
                     source={{ uri: `https://chamba.justcode.am/uploads/${elm.photo[0]?.photo}` }}
                     resizeMode={'cover'}
-                  />
+                  /> */}
                 </TouchableOpacity>
             );
           }

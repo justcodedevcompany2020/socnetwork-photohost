@@ -1,11 +1,7 @@
 import { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { Header } from '../headers/Header';
 import { LoginScreen } from '../screens/auth/LoginScreen';
-import { NewPassword } from '../screens/auth/NewPassword';
-import { RecoveryPassword } from '../screens/auth/RecoveryPassword';
-import { RegisterScreen } from '../screens/auth/RegisterScreen';
 import { AppColors } from '../styles/AppColors';
 import { TabNavigation } from './TabNavigation';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
@@ -47,6 +43,8 @@ export default Navigation = ({ token, initialRouteName, id }) => {
     if (error) {
     }
   });
+
+
 
   const changeLanguage = async () => {
     let lang = await AsyncStorage.getItem('lang')
@@ -173,33 +171,8 @@ export default Navigation = ({ token, initialRouteName, id }) => {
         {<CheckBlack token={token} />}
         <Stack.Navigator initialRouteName={i}>
           <Stack.Screen
-            name="LoginScreen"
+            name="LoginScreen1"
             component={LoginScreen}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="RegisterScreen"
-            component={RegisterScreen}
-            options={{
-              header: ({ navigation }) => (
-                <Header onPress={() => navigation.goBack()} />
-              ),
-            }}
-          />
-          <Stack.Screen
-            name="RecoveryPassword"
-            component={RecoveryPassword}
-            options={{
-              header: ({ navigation }) => (
-                <Header onPress={() => navigation.goBack()} />
-              ),
-            }}
-          />
-          <Stack.Screen
-            name="NewPassword"
-            component={NewPassword}
             options={{
               headerShown: false,
             }}

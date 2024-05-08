@@ -17,7 +17,6 @@ export const HomeScreen = ({ navigation }) => {
   const [index, setIndex] = useState(0);
   const flatListRef = useRef(null);
 
-
   useEffect(() => {
     if (staticdata.token) {
       dispatch(GetLentsAction(staticdata.token));

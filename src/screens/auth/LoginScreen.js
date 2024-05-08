@@ -59,7 +59,7 @@ export const LoginScreen = ({ navigation }) => {
 
   useEffect(() => {
     if (loginData.status) {
-      navigation.navigate('TabNavigation')
+      navigation.navigate('TabNavigation', { screen: 'Home' });
       setLogin({ error: '', value: '' })
       setPasswod({ error: '', value: '' })
       setLoginPassword()

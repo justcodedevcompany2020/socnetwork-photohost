@@ -20,7 +20,12 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
   }, [user.msgCount]);
 
   return (
-    <View style={{ flexDirection: 'row', height: 40, backgroundColor: '#FFF', borderTopColor: '#FFF' }}>
+    <View style={{
+      flexDirection: 'row',
+      height: 40,
+      backgroundColor: '#FFF',
+      borderTopColor: '#FFF'
+    }}>
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
         const label = options.tabBarLabel !== undefined

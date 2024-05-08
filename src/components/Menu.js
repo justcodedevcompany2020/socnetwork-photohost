@@ -72,7 +72,7 @@ export const Menu = ({ visible, close }) => {
             <TouchableOpacity onPress={() => {
               dispatch(LogoutAction(staticdata.token))
               dispatch(ClearLoginAction())
-              navigation.navigate('LoginScreen')
+              navigation.navigate('LoginScreen1')
               close()
             }}>
               <Text style={[Styles.darkRegular16, { marginTop: 30 }]}>{t(mainData.lang).logOut}</Text>

@@ -182,7 +182,7 @@ export const AddImg = ({ navigation }) => {
         />
       </View>
       <View>
-        <Text style={{ padding: 10, color: 'red' }}>{error}</Text>
+        <Text style={{ padding: 1, color: 'red' }}>{error}</Text>
       </View>
       <View style={{ margin: 10 }}>
         {uri.length < 6 &&
@@ -208,16 +208,16 @@ const styles = StyleSheet.create({
   wrapper: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginBottom: 20,
+    // marginBottom: 20,
     marginHorizontal: 8,
   },
   textWrapper: {
     paddingHorizontal: 15,
     paddingVertical: 10,
     borderBottomColor: AppColors.Solitude_Color,
-    borderTopColor: AppColors.Solitude_Color,
+    // borderTopColor: AppColors.Solitude_Color,
     borderBottomWidth: 1,
-    borderTopWidth: 1,
+    // borderTopWidth: 1,
   },
   close: {
     position: 'absolute',

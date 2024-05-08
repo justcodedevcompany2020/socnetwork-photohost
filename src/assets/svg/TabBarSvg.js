@@ -3,8 +3,8 @@ import Svg, { Circle, Mask, Path, Rect } from "react-native-svg"
 export const HomeSvg = ({ focused }) => {
   if (focused) {
     return <Svg
-      width={33}
-      height={33}
+      width={35}
+      height={35}
       viewBox="0 0 41 37"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -99,6 +99,7 @@ export const AddSvg = () => {
   return <Svg
     width={28}
     height={28}
+    style={{ marginTop: -4 }}
     viewBox="0 0 38 38"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"

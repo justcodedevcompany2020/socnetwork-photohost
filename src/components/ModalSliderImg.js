@@ -5,7 +5,6 @@ import {
     Image,
     Dimensions,
     StatusBar,
-    BackHandler,
 } from 'react-native';
 import SwiperFlatList from 'react-native-swiper-flatlist';
 import Video from 'react-native-video';

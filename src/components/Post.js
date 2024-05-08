@@ -5,7 +5,6 @@ import {
   Image,
   Text,
   TouchableOpacity,
-  BackHandler,
 } from 'react-native';
 import { Shadow } from 'react-native-shadow-2';
 import { useDispatch, useSelector } from 'react-redux';
@@ -164,7 +163,7 @@ export const Post = ({
         </View>
       }
       <Shadow
-        style={{ width: '100%', borderRadius: 20, backgroundColor: '#fff', position: 'relative' }}
+        style={{ width: '100%', backgroundColor: '#fff', position: 'relative' }}
         startColor={'#00000010'}>
         <View style={styles.block}>
           <View style={[Styles.flexSpaceBetween, { padding: 10, position: 'relative' }]}>
@@ -271,7 +270,6 @@ export const Post = ({
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => {
                   setOpenLike(true)
-                  // setId(id)
                   dispatch(GetPostLikeAction({ post_id: id }, staticdata.token, 1));
                   handlePresentModalPressLike()
                 }

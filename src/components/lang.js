@@ -11,7 +11,7 @@ export const t = (lang) => {
             Youhavenomessages: "У вас нет сообщений",
             Newpublication: "Новая публикация",
             adddescription: "Добавить описание",
-            Addphoto: "Добавить",
+            Addphoto: "добавить фото или видео ",
             noPublications: "нет публикаций",
             Bookmarklistisempty: 'Список закладок пуст',
             Album: 'Альбом',

@@ -13,23 +13,7 @@ import { ChnageLanguage } from './src/store/action/action';
 export default App = () => {
 
 
-
-
-
-  useEffect(() => {
-    const handleBackButton = () => {
-      // Your custom function logic goes here
-
-      // Returning true from the event handler prevents default behavior (exiting the app)
-      // Returning false allows the default behavior (exiting the app)
-      return true;
-    };
-
-    const backHandler = BackHandler.addEventListener('hardwareBackPress', handleBackButton);
-
-    // Cleanup the event listener when the component is unmounted
-    return () => backHandler.remove();
-  }, []);
+  const [hardwareBackPress, setHardwareBackPress] = useState(false)
 
 
   const firebaseConfig = {
@@ -80,15 +64,9 @@ export default App = () => {
     }
     setIsLoading(false)
   }
-
-
-
-
-
-
   useEffect(() => {
     getData()
-  }, [])
+  }, [hardwareBackPress])
 
 
 
