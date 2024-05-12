@@ -22,7 +22,7 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
   return (
     <View style={{
       flexDirection: 'row',
-      height: 40,
+      height: 35,
       backgroundColor: '#FFF',
       borderTopColor: '#FFF'
     }}>

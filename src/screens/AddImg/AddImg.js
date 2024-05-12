@@ -186,7 +186,7 @@ export const AddImg = ({ navigation }) => {
       </View>
       <View style={{ margin: 10 }}>
         {uri.length < 6 &&
-          <Button onPress={() => addPhoto()} title={t(mainData.lang).Addphoto} width={120} />
+          <Button onPress={() => addPhoto()} title={t(mainData.lang).Addphoto} />
         }
       </View>
     </View>

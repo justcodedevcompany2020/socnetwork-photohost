@@ -121,6 +121,7 @@ export const Slider = ({ photo, single, activePhoto, description }) => {
                         width: '100%',
                         aspectRatio: aspectRatio ? aspectRatio : 1,
                         position: 'relative',
+
                       },
                     ]}
                     source={{ uri: `https://chamba.justcode.am/uploads/${item.photo}` }}
