@@ -9,9 +9,8 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native';
-import MediaControls, { PLAYER_STATES } from 'react-native-media-controls';
+import MediaControls, { PLAYER_STATES } from '../components/vidio';
 import Video from 'react-native-video';
-
 import { AppColors } from '../styles/AppColors';
 
 const windowWidth = Dimensions.get('window').width;
@@ -19,13 +18,14 @@ const windowWidth = Dimensions.get('window').width;
 export const Slider = ({ photo, single, activePhoto, description }) => {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
-  const [isFullScreen, setIsFullScreen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [paused, setPaused] = useState(true);
-  const [playerState, setPlayerState] = useState(PLAYER_STATES.PAUSED);
+  const [playerState, setPlayerState] = useState(PLAYER_STATES.PLAYING);
   const [active, setActive] = useState(0);
   const [openSlider, setOpenSlider] = useState(false);
   const videoRef = useRef(null);
+
+  const [isPlayed, setIsPlayeds] = useState(false)
 
   useEffect(() => {
     setIsLoading(true); // Reset loading state when photo prop changes
@@ -73,6 +73,7 @@ export const Slider = ({ photo, single, activePhoto, description }) => {
     setPlayerState(paused ? PLAYER_STATES.PLAYING : PLAYER_STATES.PAUSED);
   };
 
+  console.log(isPlayed)
   return (
     <View>
       <FlatList
@@ -105,16 +106,17 @@ export const Slider = ({ photo, single, activePhoto, description }) => {
                 />
               ) : (
                 <View style={{ position: 'relative' }}>
-                  {paused &&
-                    <Image
-                      style={[{ width: '100%', aspectRatio: aspectRatio ? aspectRatio : 1, position: 'absolute' }]}
-                      resizeMode="cover"
-                      source={require('../assets/img/default-video-image.webp')} />
-                  }
-
+                  {!isPlayed && <View style={{ justifyContent: 'center', alignItems: 'center', position: 'absolute', left: 0, right: 0, bottom: 0, top: 0 }}>
+                    <TouchableOpacity
+                      onPress={() => setIsPlayeds(true)}
+                      style={[styles.playButton, { backgroundColor: "orange" }]}
+                    >
+                      <Image source={require('../assets/img/ic.png')} style={styles.playIcon} />
+                    </TouchableOpacity>
+                  </View>}
                   <Video
                     ref={videoRef}
-                    paused={paused}
+                    paused={!isPlayed}
                     repeat={true}
                     style={[
                       {
@@ -133,9 +135,7 @@ export const Slider = ({ photo, single, activePhoto, description }) => {
                     onProgress={(data) => setCurrentTime(data.currentTime)}
                     onEnd={onEnd}
                   />
-
-                  {<MediaControls
-                    isFullScreen={isFullScreen}
+                  {isPlayed && <MediaControls
                     duration={duration}
                     mainColor="orange"
                     onSeek={onSeek}
@@ -143,6 +143,7 @@ export const Slider = ({ photo, single, activePhoto, description }) => {
                     onPaused={onPaused}
                     onReplay={onReplay}
                     playerState={playerState}
+                    showOnStart={true}
                     progress={currentTime}
                   />}
                 </View>
@@ -202,5 +203,19 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingHorizontal: 10,
     paddingVertical: 5,
+  },
+  playButton: {
+    alignItems: "center",
+    borderRadius: 3,
+    borderWidth: 0,
+    height: 50,
+    justifyContent: "center",
+    width: 50,
+    zIndex: 999,
+  },
+  playIcon: {
+    height: 22,
+    resizeMode: "contain",
+    width: 22
   },
 });

@@ -9,6 +9,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ChecboxUNchekedSvg, CheckedChexbox } from '../../assets/svg/Svgs';
 import { t } from '../../components/lang';
 import { AppColors } from '../../styles/AppColors';
+import { CommonActions } from '@react-navigation/native';
 
 
 export const LoginScreen = ({ navigation }) => {
@@ -59,7 +60,13 @@ export const LoginScreen = ({ navigation }) => {
 
   useEffect(() => {
     if (loginData.status) {
-      navigation.navigate('TabNavigation', { screen: 'Home' });
+      // navigation.navigate('TabNavigation', { screen: 'Home' });
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{ name: 'TabNavigation' }],
+        })
+      );
       setLogin({ error: '', value: '' })
       setPasswod({ error: '', value: '' })
       setLoginPassword()

@@ -12,6 +12,7 @@ import { BackArrow } from '../assets/svg/Svgs';
 import { ClearLoginAction, LogoutAction } from '../store/action/action';
 import { Styles } from '../styles/Styles';
 import { t } from './lang';
+import { useEffect } from 'react';
 
 
 
@@ -20,6 +21,7 @@ export const Menu = ({ visible, close }) => {
   const navigation = useNavigation();
   const dispatch = useDispatch()
   const staticdata = useSelector(st => st.static);
+
   return (
     <SafeAreaView>
       <Modal animationType="slide" visible={visible} transparent={true}>
@@ -72,7 +74,7 @@ export const Menu = ({ visible, close }) => {
             <TouchableOpacity onPress={() => {
               dispatch(LogoutAction(staticdata.token))
               dispatch(ClearLoginAction())
-              navigation.navigate('LoginScreen1')
+              navigation.navigate('LoginScreen1', { screen: 'LoginScreen' })
               close()
             }}>
               <Text style={[Styles.darkRegular16, { marginTop: 30 }]}>{t(mainData.lang).logOut}</Text>

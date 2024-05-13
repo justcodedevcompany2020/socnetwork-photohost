@@ -34,10 +34,12 @@ import { EditPostScreen } from '../screens/SinglePage/EditPostScreen';
 import { SearchProfil } from '../screens/Search/SearchProfil';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { CheckBlack } from '../../CheckBlack';
+import { LoginNavigation } from './LoginNavigation';
 
 export default Navigation = ({ token, initialRouteName, id }) => {
   const dispatch = useDispatch();
   const [i, setI] = useState(initialRouteName);
+
 
   const music = new Sound('ding.mp3', Sound.MAIN_BUNDLE, (error) => {
     if (error) {
@@ -172,7 +174,7 @@ export default Navigation = ({ token, initialRouteName, id }) => {
         <Stack.Navigator initialRouteName={i}>
           <Stack.Screen
             name="LoginScreen1"
-            component={LoginScreen}
+            component={LoginNavigation}
             options={{
               headerShown: false,
             }}

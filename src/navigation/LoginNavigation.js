@@ -1,14 +1,14 @@
 import { createStackNavigator } from '@react-navigation/stack';
-import { HeaderWhiteTitle } from '../headers/HeaderWhiteTitle.';
-import { HomeHeader } from '../headers/HomeHeader';
-import { HomeScreen } from '../screens/Home/HomeScreen';
-import { NotificationScreen } from '../screens/Home/NotificationScreen';
+import { LoginScreen } from '../screens/auth/LoginScreen';
+import { RegisterScreen } from '../screens/auth/RegisterScreen';
+import { RecoveryPassword } from '../screens/auth/RecoveryPassword';
+import { NewPassword } from '../screens/auth/NewPassword';
 
 export const LoginNavigation = () => {
   const Stack = createStackNavigator();
 
   return (
-    <Stack.Navigator initialRouteName={'HomeScreen'}>
+    <Stack.Navigator initialRouteName={'LoginScreen'}>
       <Stack.Screen
         name="LoginScreen"
         component={LoginScreen}
