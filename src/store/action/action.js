@@ -1444,7 +1444,6 @@ export const DeletComment = (data, token, data2) => {
 }
 
 export const ChnageLanguage = (lang) => {
-  console.log(lang, 'lang')
   return {
     type: 'ChnageLanguage',
     lang

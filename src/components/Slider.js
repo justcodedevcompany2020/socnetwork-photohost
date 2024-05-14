@@ -19,11 +19,12 @@ export const Slider = ({ photo, single, activePhoto, description }) => {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
-  const [paused, setPaused] = useState(true);
+  const [paused, setPaused] = useState(false);
   const [playerState, setPlayerState] = useState(PLAYER_STATES.PLAYING);
   const [active, setActive] = useState(0);
   const [openSlider, setOpenSlider] = useState(false);
   const videoRef = useRef(null);
+  const [first, setFirst] = useState(true)
 
   const [isPlayed, setIsPlayeds] = useState(false)
 
@@ -41,6 +42,7 @@ export const Slider = ({ photo, single, activePhoto, description }) => {
 
   const onPaused = () => {
     setPaused(!paused);
+    setIsPlayeds(!isPlayed)
     if (!paused) {
       setPlayerState(PLAYER_STATES.PAUSED);
     }
@@ -60,6 +62,10 @@ export const Slider = ({ photo, single, activePhoto, description }) => {
   };
 
   const handleMomentumScrollEnd = (event) => {
+    setFirst(true)
+    setPaused(true)
+    setIsPlayeds(false)
+    onReplay()
     const index = Math.floor(
       Math.floor(event.nativeEvent.contentOffset.x) /
       Math.floor(event.nativeEvent.layoutMeasurement.width)
@@ -73,7 +79,6 @@ export const Slider = ({ photo, single, activePhoto, description }) => {
     setPlayerState(paused ? PLAYER_STATES.PLAYING : PLAYER_STATES.PAUSED);
   };
 
-  console.log(isPlayed)
   return (
     <View>
       <FlatList
@@ -95,25 +100,34 @@ export const Slider = ({ photo, single, activePhoto, description }) => {
           } else if (aspectRatio < 1) {
             aspectRatio = single ? 0.65 : 0.70;
           }
-
           return (
             <TouchableOpacity style={!single ? styles.img : { ...styles.img, width: windowWidth }}>
-              {!item.photo.includes('.mp4') ? (
+              {!item.video ? (
                 <Image
                   style={[{ width: '100%', aspectRatio: aspectRatio ? aspectRatio : 1 }]}
                   source={{ uri: `https://chamba.justcode.am/uploads/${item.photo}` }}
                   resizeMode="cover"
                 />
               ) : (
-                <View style={{ position: 'relative' }}>
-                  {!isPlayed && <View style={{ justifyContent: 'center', alignItems: 'center', position: 'absolute', left: 0, right: 0, bottom: 0, top: 0 }}>
-                    <TouchableOpacity
-                      onPress={() => setIsPlayeds(true)}
-                      style={[styles.playButton, { backgroundColor: "orange" }]}
-                    >
-                      <Image source={require('../assets/img/ic.png')} style={styles.playIcon} />
-                    </TouchableOpacity>
-                  </View>}
+                <View style={{ position: 'relative', height: 400 }}>
+                  {!isPlayed && first && <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                    <Image
+                      style={[{ width: '100%', height: 400 }]}
+                      source={{ uri: `https://chamba.justcode.am/uploads/${item.photo}` }}
+                    />
+                    <View style={{ position: 'absolute', left: 0, right: 0, bottom: 0, top: 0, alignItems: 'center', height: "100%", justifyContent: 'center' }}>
+                      <TouchableOpacity
+                        onPress={() => {
+                          setFirst(false)
+                          setIsPlayeds(true)
+                        }}
+                        style={[styles.playButton, { backgroundColor: "orange" }]}
+                      >
+                        <Image source={require('../assets/img/ic.png')} style={styles.playIcon} />
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                  }
                   <Video
                     ref={videoRef}
                     paused={!isPlayed}
@@ -121,12 +135,12 @@ export const Slider = ({ photo, single, activePhoto, description }) => {
                     style={[
                       {
                         width: '100%',
-                        aspectRatio: aspectRatio ? aspectRatio : 1,
+                        height: 400,
                         position: 'relative',
 
                       },
                     ]}
-                    source={{ uri: `https://chamba.justcode.am/uploads/${item.photo}` }}
+                    source={{ uri: `https://chamba.justcode.am/uploads/${item.video}` }}
                     resizeMode={'cover'}
                     onLoad={(data) => {
                       setDuration(data.duration);
@@ -135,7 +149,7 @@ export const Slider = ({ photo, single, activePhoto, description }) => {
                     onProgress={(data) => setCurrentTime(data.currentTime)}
                     onEnd={onEnd}
                   />
-                  {isPlayed && <MediaControls
+                  {!first && <MediaControls
                     duration={duration}
                     mainColor="orange"
                     onSeek={onSeek}

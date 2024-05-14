@@ -33,7 +33,6 @@ export type Props = {
 };
 
 const MediaControls = (props: Props) => {
-  console.log("-0-0-0-0-")
   const {
     children,
     containerStyle: customContainerStyle = {},
@@ -69,7 +68,6 @@ const MediaControls = (props: Props) => {
   const [isVisible, setIsVisible] = useState(initialIsVisible);
 
   useEffect(() => {
-    console.log("+======_")
     fadeOutControls(fadeOutDelay);
   }, []);
 

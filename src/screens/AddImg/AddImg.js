@@ -8,18 +8,17 @@ import {
   TouchableOpacity,
   Platform,
 } from 'react-native';
-// import ImagePicker from 'react-native-image-crop-picker';
 import { useDispatch, useSelector } from 'react-redux';
 import { HeaderWhiteTitle } from '../../headers/HeaderWhiteTitle.';
 import { check, PERMISSIONS, RESULTS, request } from 'react-native-permissions';
 import { CreatPostAction } from '../../store/action/action';
 import { AppColors } from '../../styles/AppColors';
 import { Styles } from '../../styles/Styles';
-// import ImagePicker from 'react-native-image-picker';
 import { launchImageLibrary } from 'react-native-image-picker';
 import Video from 'react-native-video';
 import { Button } from '../../ui/Button';
 import { t } from '../../components/lang';
+import { captureRef } from 'react-native-view-shot';
 
 export const AddImg = ({ navigation }) => {
   const mainData = useSelector(st => st.mainData);
@@ -27,14 +26,38 @@ export const AddImg = ({ navigation }) => {
   const [description, setDescription] = useState('');
   const createPost = useSelector(st => st.createPost);
   const staticData = useSelector(st => st.static);
+
   const videoRef = useRef(null);
+  const videoRef1 = useRef(null);
+  const videoRef2 = useRef(null);
+  const videoRef3 = useRef(null);
+  const videoRef4 = useRef(null);
+  const videoRef5 = useRef(null);
+  const ref = [videoRef, videoRef1, videoRef2, videoRef3, videoRef4, videoRef5]
+  const [screenshotUri, setScreenshotUri] = useState([]);
+
+  const captureScreenshot = async (ref) => {
+    try {
+      const uri = await captureRef(ref, {
+        format: 'jpg',
+        quality: 0.8,
+      });
+      let item = [...screenshotUri]
+      item.push(uri)
+      setScreenshotUri(item);
+      console.log('Screenshot captured:', uri);
+    } catch (error) {
+      console.error('Error capturing screenshot:', error);
+    }
+  };
+
 
   const [error, setError] = useState('')
 
   const dispatch = useDispatch();
 
+
   const onEnd = () => {
-    // Reset the video to start playing from the beginning
     if (videoRef.current) {
       videoRef.current.seek(0);
       videoRef.current.play();
@@ -72,21 +95,31 @@ export const AddImg = ({ navigation }) => {
   const creatPost = () => {
     let form = new FormData();
     uri.length &&
-      uri.forEach(el =>
-        el.uri.includes('.mov') ?
+      uri.forEach((el, i) => {
+        let index = 0
+        if (el.uri.includes('.mp4')) {
+          index = index + 1
+        }
+        // console.log(el.uri.includes('.mov'))
+        !el.uri.includes('.mp4') ?
           form.append('photos[]', {
             uri: el.uri,
             type: 'image/jpg',
             name: 'photo.jpg',
-          }) : form.append('photos[]', {
-            uri: el.uri,
-            type: 'video/mp4',
-            name: 'video.mp4',
-          })
-        ,
-      );
+          }) : (
+            form.append(`video[${index}][video]`, {
+              uri: el.uri,
+              type: 'video/mp4',
+              name: '⚡🎵 Epic Electric Timer - 15 Seconds Countdown 🎵⚡.mp4',
+            }),
+            form.append(`video[${index}][photo]`, {
+              uri: screenshotUri[i],
+              type: 'image/jpeg', // or the appropriate image type
+              name: '1.06.24 577x325.jpg',
+            })
+          )
+      });
     description && form.append('description', description);
-
     dispatch(CreatPostAction(form, staticData.token));
   };
 
@@ -105,24 +138,36 @@ export const AddImg = ({ navigation }) => {
     launchImageLibrary(options, (response) => {
       let item = [...uri]
       if (response.didCancel) {
-      } else if (response.error) {
+      }
+      else if (response.error) {
       } else {
         const selectedVideo = response.assets[0];
-        if (selectedVideo.duration <= 20) {
-          const source = { uri: response.assets[0].uri };
-          if (response.type && response.type.startsWith('video')) {
-            item = item.concat(source)
-          } else {
-            item = item.concat(source);
+        if (response.assets[0].type && response.assets[0].type.startsWith('video')) {
+          if (selectedVideo.duration <= 20) {
+            const source = { uri: response.assets[0].uri };
+            if (response.type && response.type.startsWith('video')) {
+              item = item.concat(source)
+            } else {
+              item = item.concat(source);
+            }
+            setUri(item);
+            setTimeout(() => {
+              captureScreenshot(ref[uri.length])
+            }, 2000)
           }
-          setUri(item);
+          else {
+            setError('видео должен быть меньше чем 20 с')
+          }
         }
         else {
-          setError('видео должен быть меньше чем 20 с')
+          const source = { uri: response.assets[0].uri };
+          item = item.concat(source);
+          setUri(item);
         }
       }
     });
   }
+
 
   const delateFoto = index => {
     let item = [...uri];
@@ -148,10 +193,9 @@ export const AddImg = ({ navigation }) => {
               {!elm.uri.includes('.mov') ?
 
                 <Image
+                  ref={ref[i]}
                   style={styles.img}
-                  source={{
-                    uri: elm.uri,
-                  }}
+                  source={{ uri: elm.uri }}
                 /> :
                 <Video
                   source={{ uri: elm.uri }}
@@ -171,6 +215,17 @@ export const AddImg = ({ navigation }) => {
           );
         })}
       </View>
+
+      {
+        screenshotUri.map((elm, i) => {
+          <View style={{ alignItems: 'center' }}>
+            <Image
+              source={{ uri: elm }}
+              style={{ width: 200, height: 150, marginTop: 20 }}
+            />
+          </View>
+        })
+      }
 
       <View style={styles.textWrapper}>
         <TextInput
