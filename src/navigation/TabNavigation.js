@@ -24,7 +24,7 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
       flexDirection: 'row',
       height: 32,
       backgroundColor: '#FFF',
-      borderTopColor: '#FFF'
+      borderTopColor: '#FFF',
     }}>
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
@@ -105,7 +105,7 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
             onPress={onPress}
             onLongPress={onLongPress}
           >
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', }}>
               {tabIcon}
             </View>
           </TouchableWithoutFeedback>
